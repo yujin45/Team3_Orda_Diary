@@ -1,5 +1,6 @@
 package smu.team3_orda_diary;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,20 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_content = itemView.findViewById(R.id.tv_content);
             tv_writeDate = itemView.findViewById(R.id.tv_writeDate);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int curPos = getAdapterPosition(); // 현재 리스트 클릭한 아이템 위치
+                    TodoItem todoItem = mtodoItems.get(curPos);
+
+                    String[] strChoiceItems = {"수정하기", "삭제하기"};
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setTitle("원하는 작업을 선택해주세요");
+
+
+                }
+            });
 
         }
     }
