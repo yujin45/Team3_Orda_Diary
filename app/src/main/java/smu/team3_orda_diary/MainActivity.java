@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         scheduleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), TodolistActivity.class);
+                startActivity(intent);
 
             }
         });

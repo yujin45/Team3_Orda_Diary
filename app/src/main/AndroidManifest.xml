@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Team3_Orda_Diary"
         tools:targetApi="31">
         <activity
+            android:name=".TodolistActivity"
+            android:exported="false" />
+        <activity
             android:name=".DiaryWritingPageActivity"
             android:exported="false">
             <meta-data
