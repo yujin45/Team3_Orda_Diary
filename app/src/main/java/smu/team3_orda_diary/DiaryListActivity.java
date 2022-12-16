@@ -35,13 +35,15 @@ public class DiaryListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        /*
 
+        diaryList.add(null);
         adapter = new DiaryRecyclerViewAdapter(this, diaryList);
         recyclerView.setAdapter(adapter);
         //  리사이클러 뷰 불규칙 레이아웃인데 2개씩 넣어줌
         StaggeredGridLayoutManager staggeredGridLayoutManager
                 = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         //레이아웃 매니저 연결
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        recyclerView.setLayoutManager(staggeredGridLayoutManager);*/
     }
 }
