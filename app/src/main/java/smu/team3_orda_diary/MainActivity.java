@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         diaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AlarmActivity.class);
+                Intent intent = new Intent(getApplicationContext(), DiaryListActivity.class);
                 startActivity(intent);
             }
         });
