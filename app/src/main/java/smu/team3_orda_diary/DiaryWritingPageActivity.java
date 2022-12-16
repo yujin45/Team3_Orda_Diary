@@ -36,7 +36,12 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
 
         diaryDBHelper = new DiaryDBHelper(this, 1);
 
-
+        //https://crazykim2.tistory.com/648
+        // https://m.blog.naver.com/yoon141122/220832906240  이거봐라!!!!!!!!!
+        // https://cool-developer.tistory.com/11?category=943315
+        // https://aristatait.tistory.com/14
+        // https://aries574.tistory.com/265
+        // https://velog.io/@jinny_0422/%EA%B0%84%EB%8B%A8%ED%95%9C-ToDo-List%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
