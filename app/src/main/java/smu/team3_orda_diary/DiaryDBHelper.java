@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import java.sql.Blob;
 import java.util.ArrayList;
 
 // 일기장 DB관리를 위해 다양한 DB 쿼리문을 수행하는 메서드들을 만들어줄 것임
@@ -42,9 +41,9 @@ public class DiaryDBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void Update(int diary_id, String title, String date, String feel, String picture_uri  ,String text ) {
+    public void update(int diary_id, String title, String date, String feel, String picture_uri  ,String text ) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE Person SET TITLE = " + title
+        db.execSQL("UPDATE DIARY_TB SET TITLE = " + title
                 + ", DATE = '" + date + "'"
                 + ", FEEL = '" + feel +"'"
                 + ", PICTURE_URI = '" + picture_uri +"'"
@@ -53,10 +52,19 @@ public class DiaryDBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void Delete(String diary_id) {
+    public void delete(String diary_id) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE DIARY_TB WHERE DIARY_ID = '" + diary_id + "'");
         db.close();
+    }
+
+    public int getRowCount(){
+        // 읽기가 가능하게 DB 열기
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor countCursor = db.rawQuery("SELECT count(DIARY_ID) FROM DIARY_TB;", null);
+        countCursor.moveToFirst();
+        int count =countCursor.getCount();
+        return count;
     }
 
     public ArrayList<OnePageDiary> getResult() {
