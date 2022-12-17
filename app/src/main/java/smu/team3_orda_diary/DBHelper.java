@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper
 {
-    private static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 1;
     public static final String DB_NAME = "orda.db";
 
     public DBHelper(@Nullable Context context) {
@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db) {
         //데이터 베이스가 생성이 될 때 호출
         //데이터베이스 -> 테이블 -> 칼럼 -> 값
-        db.execSQL("CREATE TABLE IF NOT EXISTS Todolist (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT NOT NULL,writeDate TEXT NOT NULL ) "); //테이블이 존재하지 않는 경우
+        db.execSQL("CREATE TABLE IF NOT EXISTS TODOLIST_TB (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT NOT NULL,writeDate TEXT NOT NULL ) "); //테이블이 존재하지 않는 경우
 
     }
 
@@ -37,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper
         String change = _writeDate;
 
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM TodoList WHERE writeDate='"+change+"' ORDER BY writeDate DESC", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM TODOLIST_TB WHERE writeDate='"+change+"' ORDER BY writeDate DESC", null);
         if(cursor.getCount() !=0){
             // 조회는 데이터가 있을 때 내부 수행
             while (cursor.moveToNext()){
@@ -67,20 +67,20 @@ public class DBHelper extends SQLiteOpenHelper
     // 이거 함수 이름 소문자 시작으로 바꿔주세요
 
     //INSERT 문 (할일 목록을 DB에 넣는다)
-    public void InsertTodo(String _title, String _content, String _writeDate){
+    public void insertTodo(String _title, String _content, String _writeDate){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO TodoList (title, content, writeDate) VALUES ('"+_title+"','"+ _content +"','"+ _writeDate +"');");
+        db.execSQL("INSERT INTO TODOLIST_TB (title, content, writeDate) VALUES ('"+_title+"','"+ _content +"','"+ _writeDate +"');");
     }
 
     //UPDATE 문 (할일 목록을 수정한다.)
-    public void UpdateTodo(String _title, String _content, String _writeDate , String _beforeDate){
+    public void updateTodo(String _title, String _content, String _writeDate , String _beforeDate){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE TodoList SET title='"+_title+"', content='"+_content+"', writeDate= '"+_writeDate+"' WHERE writeDate='"+_beforeDate+"' ");
+        db.execSQL("UPDATE TODOLIST_TB SET title='"+_title+"', content='"+_content+"', writeDate= '"+_writeDate+"' WHERE writeDate='"+_beforeDate+"' ");
     }
 
     //DELETE 문 (할일 목록을 제거한다.)
     public void deleteTodo( String _beforeDate ){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM TodoList WHERE writeDate = '"+_beforeDate+"'");
+        db.execSQL("DELETE FROM TODOLIST_TB WHERE writeDate = '"+_beforeDate+"'");
     }
 }

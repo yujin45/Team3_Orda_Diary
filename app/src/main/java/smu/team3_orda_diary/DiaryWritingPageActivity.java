@@ -77,7 +77,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
         });
 
         /* 저장 */
-        diaryDBHelper = new DiaryDBHelper(this, 2);
+        diaryDBHelper = new DiaryDBHelper(this);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

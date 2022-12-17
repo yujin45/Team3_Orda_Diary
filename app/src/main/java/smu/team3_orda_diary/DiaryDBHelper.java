@@ -1,6 +1,7 @@
 package smu.team3_orda_diary;
 
 import static smu.team3_orda_diary.DBHelper.DB_NAME;
+import static smu.team3_orda_diary.DBHelper.DB_VERSION;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 public class DiaryDBHelper extends SQLiteOpenHelper {
     //static final String DATABASE_NAME = "Diary";
 
-    public DiaryDBHelper(@Nullable Context context, int version) {
-        super(context, DB_NAME , null, version);
+    public DiaryDBHelper(@Nullable Context context) {
+        super(context, DB_NAME , null, DB_VERSION);
     }
 
     @Override
@@ -68,6 +69,7 @@ public class DiaryDBHelper extends SQLiteOpenHelper {
         countCursor.moveToFirst();
         int count =countCursor.getCount();
         return count;
+
     }
 
     public ArrayList<OnePageDiary> getResult() {
