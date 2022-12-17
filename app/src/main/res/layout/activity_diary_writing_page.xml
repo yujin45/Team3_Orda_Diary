@@ -22,7 +22,12 @@
                 android:id="@+id/insertPictureButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="사진 넣기" />
+                android:text="갤러리 사진 넣기" />
+            <Button
+                android:id="@+id/insertCameraButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카메라 사진 넣기" />
             <Button
                 android:id="@+id/selectBackColorButton"
                 android:layout_width="wrap_content"
