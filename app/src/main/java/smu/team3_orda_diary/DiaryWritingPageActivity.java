@@ -77,12 +77,11 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
         });
 
         /* 저장 */
-        diaryDBHelper = new DiaryDBHelper(this, 2);
+        diaryDBHelper = new DiaryDBHelper(this);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count+=1;
-                diaryDBHelper.insert(count, titleEditText.getText().toString(), dateEditText.getText().toString(),
+                diaryDBHelper.insert(titleEditText.getText().toString(), dateEditText.getText().toString(),
                         "기분", null, edittText.getText().toString());
                 ArrayList<OnePageDiary> onePageDiaries = diaryDBHelper.getResult();
 

@@ -1,6 +1,7 @@
 package smu.team3_orda_diary;
 
 import static smu.team3_orda_diary.DBHelper.DB_NAME;
+import static smu.team3_orda_diary.DBHelper.DB_VERSION;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 public class DiaryDBHelper extends SQLiteOpenHelper {
     //static final String DATABASE_NAME = "Diary";
 
-    public DiaryDBHelper(@Nullable Context context, int version) {
-        super(context, DB_NAME , null, version);
+    public DiaryDBHelper(@Nullable Context context) {
+        super(context, DB_NAME , null,  DB_VERSION);
     }
 
     @Override
@@ -33,14 +34,15 @@ public class DiaryDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS DIARY_TB");
+        //db.execSQL("DROP TABLE IF EXISTS DIARY_TB");
         onCreate(db);
     }
 
-    public void insert(int diary_id, String title, String date, String feel, String picture_uri, String text ) {
+    public void insert(String title, String date, String feel, String picture_uri, String text ) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO DIARY_TB VALUES('" + diary_id + "', '" + title + "', '" + date + "', '"
-                + feel + "', '" + picture_uri + "','" + text+"');");
+        //db.execSQL("INSERT INTO DIARY_TB VALUES('" + diary_id + "', '" + title + "', '" + date + "', '"
+        //        + feel + "', '" + picture_uri + "','" + text+"');");
+        db.execSQL("INSERT INTO DIARY_TB (TITILE, DATE, FEEL, PICTURE_URI, TEXT) VALUES ('"+ title+"','"+ date +"','"+ feel  +"','"+ picture_uri+ date +"','"+ text +"');");
         //db.close();
     }
 
@@ -95,7 +97,7 @@ public class DiaryDBHelper extends SQLiteOpenHelper {
             onePageDiaries.add(onePageDiary);
 
         }
-
+        cursor.close();
         return onePageDiaries;
     }
 }
