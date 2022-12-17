@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DBHelper extends SQLiteOpenHelper
 {
     private static final int DB_VERSION = 1;
-    private static final String DB_NAME = "todo.db";
+    private static final String DB_NAME = "orda.db";
 
     public DBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db) {
         //데이터 베이스가 생성이 될 때 호출
         //데이터베이스 -> 테이블 -> 칼럼 -> 값
-        db.execSQL("CREATE TABLE IF NOT EXISTS Todolist (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, context TEXT NOT NULL,writeDate TEXT NOT NULL ) "); //테이블이 존재하지 않는 경우
+        db.execSQL("CREATE TABLE IF NOT EXISTS Todolist (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT NOT NULL,writeDate TEXT NOT NULL ) "); //테이블이 존재하지 않는 경우
 
     }
 
@@ -70,14 +70,14 @@ public class DBHelper extends SQLiteOpenHelper
     }
 
     //UPDATE 문 (할일 목록을 수정한다.)
-    public void InsertTodo(String _title, String _content, String _writeDate,int _id){
+    public void UpdateTodo(String _title, String _content, String _writeDate , String _beforeDate){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE TodoList SET title='"+_title+"', content='"+_content+"', writeDate= '"+_writeDate+"' WHERE id='"+_id+"' ");
+        db.execSQL("UPDATE TodoList SET title='"+_title+"', content='"+_content+"', writeDate= '"+_writeDate+"' WHERE writeDate='"+_beforeDate+"' ");
     }
 
     //DELETE 문 (할일 목록을 제거한다.)
-    public void deleteTodo(int _id){
+    public void deleteTodo( String _beforeDate ){
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM TodoList WHERE id = '"+_id+"'");
+        db.execSQL("DELETE FROM TodoList WHERE writeDate = '"+_beforeDate+"'");
     }
 }
