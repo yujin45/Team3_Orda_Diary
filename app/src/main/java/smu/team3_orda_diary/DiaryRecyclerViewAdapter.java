@@ -4,16 +4,21 @@ package smu.team3_orda_diary;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
+import java.net.URI;
 import java.util.ArrayList;
 
 // 리사이클러 뷰를 사용하기 위한 어댑터: 이전 예약 과제에서 만든 것 재활용
@@ -53,6 +58,12 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Log.d(TAG, "onBindViewHolder");
         MyViewHolder myViewHolder = (MyViewHolder) holder;
+        myViewHolder.diaryTitleTextView.setText(dataModels.get(position).getText());
+        myViewHolder.diaryDateTextView.setText(dataModels.get(position).getDate());
+        myViewHolder.diaryFeelTextView.setText(dataModels.get(position).getFeel());
+        myViewHolder.diaryTextView.setText(dataModels.get(position).getText());
+        String picture_uri = dataModels.get(position).getPicture_uri();
+        myViewHolder.diarySavedImageView.setImageURI(Uri.parse(picture_uri));
        // myViewHolder.imageViewMoment.setImageBitmap(dataModels.get(position).getBitmapImage());
         // ▼ 리사이클러 내의 아이템 클릭시 동작하는 부분
         /*
@@ -71,10 +82,15 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter {
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageViewMoment;
+        TextView diaryTitleTextView, diaryDateTextView, diaryFeelTextView, diaryTextView;
+        ImageView diarySavedImageView;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageViewMoment = itemView.findViewById(R.id.diaryListImageView);
+            diaryTitleTextView = itemView.findViewById(R.id.diaryTitleTextView);
+            diaryDateTextView = itemView.findViewById(R.id.diaryDateTextView);
+            diaryFeelTextView = itemView.findViewById(R.id.diaryFeelTextView);
+            diaryTextView = itemView.findViewById(R.id.diaryTextView);
+            diarySavedImageView= itemView.findViewById(R.id.diarySavedImageView);
         }
     }
 

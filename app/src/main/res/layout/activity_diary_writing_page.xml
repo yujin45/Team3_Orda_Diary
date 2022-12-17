@@ -94,18 +94,24 @@
                 android:text="날짜변경" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/diaryImageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="일기 작성부" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/diaryImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="fitCenter"
+        android:src="@drawable/pika" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:inputType="textMultiLine"
+        android:lines="6"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="일기 작성부" />
 </LinearLayout>

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -35,15 +36,20 @@ public class DiaryListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        /*
 
-        diaryList.add(null);
-        adapter = new DiaryRecyclerViewAdapter(this, diaryList);
-        recyclerView.setAdapter(adapter);
-        //  리사이클러 뷰 불규칙 레이아웃인데 2개씩 넣어줌
-        StaggeredGridLayoutManager staggeredGridLayoutManager
-                = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        //레이아웃 매니저 연결
-        recyclerView.setLayoutManager(staggeredGridLayoutManager);*/
+        if (diaryList!=null){
+            // 일기가 있을 때
+            adapter = new DiaryRecyclerViewAdapter(this, diaryList);
+            recyclerView.setAdapter(adapter);
+            //  리사이클러 뷰 불규칙 레이아웃인데 2개씩 넣어줌
+            StaggeredGridLayoutManager staggeredGridLayoutManager
+                    = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            //레이아웃 매니저 연결
+            recyclerView.setLayoutManager(staggeredGridLayoutManager);
+        }else if(diaryList==null){
+            // 아무 일기도 없을 때는 아무것도 안 보이게 함
+            Log.d("일기 있나> ", "없음--------------");
+        }
+
     }
 }

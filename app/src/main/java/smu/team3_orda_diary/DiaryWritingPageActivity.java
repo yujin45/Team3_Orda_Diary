@@ -1,5 +1,7 @@
 package smu.team3_orda_diary;
 
+import static smu.team3_orda_diary.DiaryListActivity.diaryList;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -82,15 +84,22 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //count+=1;
-                diaryDBHelper.insert( titleEditText.getText().toString(), dateEditText.getText().toString(),
-                        "기분", imageUri.toString(), edittText.getText().toString());
-                ArrayList<OnePageDiary> onePageDiaries = diaryDBHelper.getResult();
+                if (imageUri==null){
+                    Toast.makeText(getApplicationContext(), "이미지를 삽입해주세요", Toast.LENGTH_SHORT).show();
+                }else{
+                    diaryDBHelper.insert( titleEditText.getText().toString(), dateEditText.getText().toString(),
+                            "기분", imageUri.toString(), edittText.getText().toString());
+                    //ArrayList<OnePageDiary> onePageDiaries = diaryDBHelper.getResult();
+                    diaryList = diaryDBHelper.getResult();
+                    for(int i =0; i<diaryList.size(); i++){
+                        Log.d("-------\n제목 :" ,diaryList.get(i).getTitle());
+                        Log.d("날짜 :" , diaryList.get(i).getDate());
+                        Log.d("내용 :" , diaryList.get(i).getText());
+                    }
 
-                for(int i =0; i<onePageDiaries.size(); i++){
-                    Log.d("-------\n제목 :" , onePageDiaries.get(i).getTitle());
-                    Log.d("날짜 :" , onePageDiaries.get(i).getDate());
-                    Log.d("내용 :" , onePageDiaries.get(i).getText());
+
                 }
+                
                 // 안녕하세요
 
             }
