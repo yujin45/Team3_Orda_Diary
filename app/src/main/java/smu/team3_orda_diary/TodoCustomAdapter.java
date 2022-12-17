@@ -1,15 +1,23 @@
 package smu.team3_orda_diary;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.ViewHolder> {
     private ArrayList<TodoItem> mtodoItems;
@@ -24,8 +32,9 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+    public TodoCustomAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_todo_list,parent,false);
+        return new ViewHolder(holder);
     }
 
     @Override
@@ -39,7 +48,8 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return 0;
+
+        return mtodoItems.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -62,11 +72,59 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
                     String[] strChoiceItems = {"수정하기", "삭제하기"};
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     builder.setTitle("원하는 작업을 선택해주세요");
+                    builder.setItems(strChoiceItems, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int position) {
+                            if(position == 0){
+                                //수정하기
+                                //팝업창 띄우기
+                                Dialog dialog = new Dialog(mContext, android.R.style.Theme_Material_Light_Dialog);
+                                dialog.setContentView(R.layout.dialog_edit_todo);
+                                EditText et_title = dialog.findViewById(R.id.et_title);
+                                EditText et_content = dialog.findViewById(R.id.et_content);
+                                Button btn_ok = dialog.findViewById(R.id.todo_dialog_btn_ok);
+                                btn_ok.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        //update database
+                                        String title = et_title.getText().toString();
+                                        String content = et_content.getText().toString();
+                                        String currentTime = new SimpleDateFormat("yyyy-MM-dd MM:mm:ss").format(new Date()).toString(); // 현재 시간 연월일시분초 받아오기
+                                        String beforeTime = todoItem.getWriteDate();
 
+                                        mDBHelper.UpdateTodo(title, content, currentTime, beforeTime);
+
+                                        //update UI
+                                        todoItem.setTitle(title);
+                                        todoItem.setContent(content);
+                                        todoItem.setWriteDate(currentTime);
+                                        notifyItemChanged(curPos, todoItem);
+                                        dialog.dismiss();
+                                        Toast.makeText(mContext, "목록 수정이 완료되었습니다.", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                dialog.show();
+                            }
+                            else if(position == 1){
+                                //삭제하기
+                                String beforeTime = todoItem.getWriteDate();
+                                mDBHelper.deleteTodo(beforeTime);
+                                //delete UI
+                                mtodoItems.remove(curPos);
+                                notifyItemRemoved(curPos);
+                                Toast.makeText(mContext, "목록 삭제가 완료되었습니다.", Toast.LENGTH_LONG).show();
+
+                            }
+                        }
+                    });
 
                 }
             });
 
         }
+    }
+    public void addItem (TodoItem _item){
+        mtodoItems.add(0,_item);
+        notifyItemInserted(0);
     }
 }
