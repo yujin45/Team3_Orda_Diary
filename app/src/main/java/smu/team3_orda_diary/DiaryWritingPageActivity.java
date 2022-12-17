@@ -91,6 +91,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                     Log.d("날짜 :" , onePageDiaries.get(i).getDate());
                     Log.d("내용 :" , onePageDiaries.get(i).getText());
                 }
+                // 안녕하세요
 
             }
         });
