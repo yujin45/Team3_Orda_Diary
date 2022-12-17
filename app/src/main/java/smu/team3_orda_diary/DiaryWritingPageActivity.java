@@ -81,9 +81,9 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                count+=1;
-                diaryDBHelper.insert(count, titleEditText.getText().toString(), dateEditText.getText().toString(),
-                        "기분", null, edittText.getText().toString());
+                //count+=1;
+                diaryDBHelper.insert( titleEditText.getText().toString(), dateEditText.getText().toString(),
+                        "기분", imageUri.toString(), edittText.getText().toString());
                 ArrayList<OnePageDiary> onePageDiaries = diaryDBHelper.getResult();
 
                 for(int i =0; i<onePageDiaries.size(); i++){
