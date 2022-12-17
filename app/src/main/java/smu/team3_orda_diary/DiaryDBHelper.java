@@ -1,5 +1,7 @@
 package smu.team3_orda_diary;
 
+import static smu.team3_orda_diary.DBHelper.DB_NAME;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,10 +13,10 @@ import java.util.ArrayList;
 
 // 일기장 DB관리를 위해 다양한 DB 쿼리문을 수행하는 메서드들을 만들어줄 것임
 public class DiaryDBHelper extends SQLiteOpenHelper {
-    static final String DATABASE_NAME = "Diary";
+    //static final String DATABASE_NAME = "Diary";
 
     public DiaryDBHelper(@Nullable Context context, int version) {
-        super(context, DATABASE_NAME, null, version);
+        super(context, DB_NAME , null, version);
     }
 
     @Override
@@ -37,8 +39,9 @@ public class DiaryDBHelper extends SQLiteOpenHelper {
 
     public void insert(int diary_id, String title, String date, String feel, String picture_uri, String text ) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO DIARY_TB VALUES('" + diary_id + "', '" + title + "', '" + date + "', '" + feel + "', '" + picture_uri + "','" + text+"');");
-        db.close();
+        db.execSQL("INSERT INTO DIARY_TB VALUES('" + diary_id + "', '" + title + "', '" + date + "', '"
+                + feel + "', '" + picture_uri + "','" + text+"');");
+        //db.close();
     }
 
     public void update(int diary_id, String title, String date, String feel, String picture_uri  ,String text ) {
@@ -49,13 +52,13 @@ public class DiaryDBHelper extends SQLiteOpenHelper {
                 + ", PICTURE_URI = '" + picture_uri +"'"
                 + ", TEXT =  '" + text+"'"
                 + " WHERE DIARY_ID = '" + diary_id + "'");
-        db.close();
+       // db.close();
     }
 
     public void delete(String diary_id) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE DIARY_TB WHERE DIARY_ID = '" + diary_id + "'");
-        db.close();
+        //db.close();
     }
 
     public int getRowCount(){

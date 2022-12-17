@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DBHelper extends SQLiteOpenHelper
 {
     private static final int DB_VERSION = 1;
-    private static final String DB_NAME = "orda.db";
+    public static final String DB_NAME = "orda.db";
 
     public DBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -63,6 +63,8 @@ public class DBHelper extends SQLiteOpenHelper
         return todoItems;
 
     }
+    // 이거 함수 이름 소문자 시작으로 바꿔주세요
+
     //INSERT 문 (할일 목록을 DB에 넣는다)
     public void InsertTodo(String _title, String _content, String _writeDate){
         SQLiteDatabase db = getWritableDatabase();
