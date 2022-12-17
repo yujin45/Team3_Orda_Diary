@@ -91,7 +91,7 @@ public class TodolistActivity extends AppCompatActivity {
                         //update database
                         String title = et_title.getText().toString();
                         String content = et_content.getText().toString();
-                        mDBHelper.InsertTodo(title, content, currentTime);
+                        mDBHelper.insertTodo(title, content, currentTime);
 
                         //Insert UI
                         TodoItem item = new TodoItem();
