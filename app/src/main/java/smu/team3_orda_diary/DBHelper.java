@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper
 {
-    public static final int DB_VERSION = 1;
-    public static final String DB_NAME = "orda.db";
+    private static final int DB_VERSION = 1;
+    private static final String DB_NAME = "orda.db";
 
     public DBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -32,11 +32,12 @@ public class DBHelper extends SQLiteOpenHelper
         onCreate(db);
     }
     //SELECT 문 (할일 목록을 조회한다.)
-    public ArrayList<TodoItem> getTodoList(){
+    public ArrayList<TodoItem> getTodoList(String _writeDate){
         ArrayList<TodoItem> todoItems = new ArrayList<>();
+        String change = _writeDate;
 
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM TodoList ORDER BY writeDate DESC", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM TodoList WHERE writeDate='"+change+"' ORDER BY writeDate DESC", null);
         if(cursor.getCount() !=0){
             // 조회는 데이터가 있을 때 내부 수행
             while (cursor.moveToNext()){
@@ -63,8 +64,6 @@ public class DBHelper extends SQLiteOpenHelper
         return todoItems;
 
     }
-    // 이거 함수 이름 소문자 시작으로 바꿔주세요
-
     //INSERT 문 (할일 목록을 DB에 넣는다)
     public void InsertTodo(String _title, String _content, String _writeDate){
         SQLiteDatabase db = getWritableDatabase();

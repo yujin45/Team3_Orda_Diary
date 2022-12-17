@@ -66,7 +66,7 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int curPos = getAdapterPosition(); // 현재 리스트 클릭한 아이템 위치
+                    int curPos = getAbsoluteAdapterPosition(); // 현재 리스트 클릭한 아이템 위치
                     TodoItem todoItem = mtodoItems.get(curPos);
 
                     String[] strChoiceItems = {"수정하기", "삭제하기"};
@@ -82,6 +82,8 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
                                 dialog.setContentView(R.layout.dialog_edit_todo);
                                 EditText et_title = dialog.findViewById(R.id.et_title);
                                 EditText et_content = dialog.findViewById(R.id.et_content);
+                                et_title.setText(todoItem.getTitle().toString());
+                                et_content.setText(todoItem.getContent().toString());
                                 Button btn_ok = dialog.findViewById(R.id.todo_dialog_btn_ok);
                                 btn_ok.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -117,6 +119,7 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
                             }
                         }
                     });
+                    builder.show();
 
                 }
             });
@@ -124,6 +127,10 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
         }
     }
     public void addItem (TodoItem _item){
+        mtodoItems.add(0,_item);
+        notifyItemInserted(0);
+    }
+    public void selectItem (TodoItem _item){
         mtodoItems.add(0,_item);
         notifyItemInserted(0);
     }

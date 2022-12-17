@@ -3,8 +3,6 @@ package smu.team3_orda_diary;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -22,12 +20,11 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
     EditText titleEditText, dateEditText, edittText;
     ImageView diaryImageView;
     DiaryDBHelper diaryDBHelper;
-    int count=0;
+
     // 날짜 관련
     DatePickerDialog datePickerDialog;
     Calendar dirayCalendar;
     int diaryYear, diaryMonth, diaryDay, diaryWeek;
-    Uri imageUri;
     String weekList[] = {"", "일", "월", "화", "수", "목", "금", "토"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +44,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
         diaryImageView = findViewById(R.id.diaryImageView);
 
 
-        /* 날짜 */
+
         // 현재 날짜로 자동 설정 (버튼으로 날짜 수정은 아래에)
         dirayCalendar = Calendar.getInstance();
         diaryYear = dirayCalendar.get(Calendar.YEAR);
@@ -65,23 +62,20 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
             }
         });
 
-        /* 이미지 넣기 */
-        insertPictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 인텐트를 사용하여 갤러리에서 뭘 가져올건지 수행함
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("image/*");
-                startActivityForResult(intent, 1);
-            }
-        });
+        //https://crazykim2.tistory.com/648
+        // https://m.blog.naver.com/yoon141122/220832906240  이거봐라!!!!!!!!!
+        // https://cool-developer.tistory.com/11?category=943315
+        // https://aristatait.tistory.com/14
+        // https://aries574.tistory.com/265
+        // https://velog.io/@jinny_0422/%EA%B0%84%EB%8B%A8%ED%95%9C-ToDo-List%EC%95%B1-%EB%A7%8C%EB%93%A4%EA%B8%B0
 
-        /* 저장 */
-        diaryDBHelper = new DiaryDBHelper(this);
+
+        // DB관련 부분
+        diaryDBHelper = new DiaryDBHelper(this, 1);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                diaryDBHelper.insert(titleEditText.getText().toString(), dateEditText.getText().toString(),
+                diaryDBHelper.insert(5,titleEditText.getText().toString(), dateEditText.getText().toString(),
                         "기분", null, edittText.getText().toString());
                 ArrayList<OnePageDiary> onePageDiaries = diaryDBHelper.getResult();
 
@@ -99,7 +93,6 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
     }
     /////////ONCREATE
 
-    // 날짜 선택했을 때
     private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -108,21 +101,5 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
             dateEditText.setText(year + "년" +  (monthOfYear+1) + "월"  + dayOfMonth +"일");
         }
     };
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // 위에서 버튼을 눌렀을 때 이쪽으로 와서 case 1일 때로 들어가게 됨.
-        // 이때 선택한 이미지 uri를 넣어주기
-        switch(requestCode) {
-            case 1:
-                if (resultCode == RESULT_OK) {
-                    imageUri = data.getData();
-                    diaryImageView.setImageURI(imageUri);
-                }
-                break;
-        }
-    }
-
 
 }
