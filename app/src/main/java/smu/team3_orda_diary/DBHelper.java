@@ -32,11 +32,12 @@ public class DBHelper extends SQLiteOpenHelper
         onCreate(db);
     }
     //SELECT 문 (할일 목록을 조회한다.)
-    public ArrayList<TodoItem> getTodoList(){
+    public ArrayList<TodoItem> getTodoList(String _writeDate){
         ArrayList<TodoItem> todoItems = new ArrayList<>();
+        String change = _writeDate;
 
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM TodoList ORDER BY writeDate DESC", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM TodoList WHERE writeDate='"+change+"' ORDER BY writeDate DESC", null);
         if(cursor.getCount() !=0){
             // 조회는 데이터가 있을 때 내부 수행
             while (cursor.moveToNext()){

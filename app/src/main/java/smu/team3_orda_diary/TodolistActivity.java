@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -26,18 +27,40 @@ public class TodolistActivity extends AppCompatActivity {
     private ArrayList<TodoItem> mTodoItems;
     private DBHelper mDBHelper;
     private TodoCustomAdapter mAdapter;
+    String currentTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString(); // 현재 시간 연월일 받아오기
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_todolist);
 
+        mRv_todo= findViewById(R.id.rv_todo);
+        mBtn_Write= findViewById(R.id.todo_btn_write);
+        mDBHelper = new DBHelper(this);
+
+
+
+        // 날짜 기초값 세팅
         final TextView today = findViewById(R.id.todo_today);
+        LocalDate now = LocalDate.now();
+        int year = now.getYear();
+        int month = now.getMonthValue();
+        int dayOfMonth = now.getDayOfMonth();
+        today.setText(String.format("%d년 %d월 %d일",year,month,dayOfMonth));
+        // 달력
         CalendarView calendar = findViewById(R.id.todo_calendar);
+
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int dayOfMonth) {
                 month += 1;
                 today.setText(String.format("%d년 %d월 %d일",year,month,dayOfMonth));
+                String changeDate = String.format("%d-%d-%d",year,month,dayOfMonth);
+                Toast.makeText(TodolistActivity.this, changeDate, Toast.LENGTH_LONG).show();
+                currentTime = changeDate;
+                loadRecentDB(currentTime);
             }
         });
 
@@ -51,7 +74,7 @@ public class TodolistActivity extends AppCompatActivity {
         mRv_todo = findViewById(R.id.rv_todo);
         mBtn_Write = findViewById(R.id.todo_btn_write);
         mTodoItems = new ArrayList<>();
-        loadRecentDB();
+        loadRecentDB(currentTime);
 
         mBtn_Write.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,8 +91,6 @@ public class TodolistActivity extends AppCompatActivity {
                         //update database
                         String title = et_title.getText().toString();
                         String content = et_content.getText().toString();
-                        String currentTime = new SimpleDateFormat("yyyy-MM-dd MM:mm:ss").format(new Date()).toString(); // 현재 시간 연월일시분초 받아오기
-
                         mDBHelper.InsertTodo(title, content, currentTime);
 
                         //Insert UI
@@ -90,9 +111,10 @@ public class TodolistActivity extends AppCompatActivity {
         });
 
     }
-    private  void loadRecentDB(){
+    private  void loadRecentDB(String writeDate){
         //저장되어있던 DB 를 가져온다.
-        mTodoItems = mDBHelper.getTodoList();
+
+        mTodoItems = mDBHelper.getTodoList(writeDate);
         if(mAdapter == null){
             mAdapter = new TodoCustomAdapter(mTodoItems, this);
             mRv_todo.setHasFixedSize(true);
