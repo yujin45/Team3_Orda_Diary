@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -30,8 +32,9 @@ public class TodolistActivity extends AppCompatActivity {
     private TodoCustomAdapter mAdapter;
     private String currentTime = "";
 
-
-
+     TextView today;
+    LocalDate now;
+    int year, month, dayOfMonth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +45,7 @@ public class TodolistActivity extends AppCompatActivity {
         mDBHelper = new DBHelper(this);
 
 
-
+        /*
         // 날짜 기초값 세팅
         final TextView today = findViewById(R.id.todo_today);
         LocalDate now = LocalDate.now();
@@ -51,6 +54,16 @@ public class TodolistActivity extends AppCompatActivity {
         int dayOfMonth = now.getDayOfMonth();
         today.setText(String.format("%d년 %d월 %d일",year,month,dayOfMonth));
         currentTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        */
+        today = findViewById(R.id.todo_today);
+        now = LocalDate.now();
+        year = now.getYear();
+        month = now.getMonthValue();
+        dayOfMonth = now.getDayOfMonth();
+        today.setText(String.format("%d년 %d월 %d일",year,month,dayOfMonth));
+        currentTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
         setInit();
         // 달력
         CalendarView calendar = findViewById(R.id.todo_calendar);
@@ -97,7 +110,8 @@ public class TodolistActivity extends AppCompatActivity {
                         String content = et_content.getText().toString();
                         mDBHelper.insertTodo(title, content, currentTime);
 
-                        //Insert UI
+                        /*
+                        //Insert UI 일단 주석함
                         TodoItem item = new TodoItem();
 
                         item.setTitle(title);
@@ -105,9 +119,17 @@ public class TodolistActivity extends AppCompatActivity {
                         item.setWriteDate(currentTime);
 
                         mAdapter.addItem(item);
+
+                         */
                         //mRv_todo.smoothScrollToPosition(0);
                         dialog.dismiss();
                         Toast.makeText(TodolistActivity.this, "목록이 추가되었습니다.", Toast.LENGTH_LONG).show();
+                        // 화면을 refresh해줘야 함
+                        mAdapter.notifyDataSetChanged();
+                        mRv_todo.invalidate();
+                        Intent intentRefresh = getIntent();
+                        finish();
+                        startActivity(intentRefresh);
                     }
                 });
                 dialog.show();
@@ -117,13 +139,18 @@ public class TodolistActivity extends AppCompatActivity {
     }
     private  void loadRecentDB(String writeDate){
         //저장되어있던 DB 를 가져온다.
-        writeDate = "2022-12-16";
+        Log.d("wirteDate 들어온 것 : " , writeDate);
+
+        //writeDate = "2022-12-16";
         mTodoItems = mDBHelper.getTodoList(writeDate);
-        if(mAdapter == null){
+        if(mTodoItems!=null){
             mAdapter = new TodoCustomAdapter(mTodoItems, this);
             mRv_todo.setHasFixedSize(true);
             mRv_todo.setAdapter(mAdapter);
 
+        }else if(mTodoItems==null){
+            // 아무 일정 없을 때는 아무것도 안 보이게 함
+            Log.d("일정 있나> ", "없음--------------");
         }
     }
 }

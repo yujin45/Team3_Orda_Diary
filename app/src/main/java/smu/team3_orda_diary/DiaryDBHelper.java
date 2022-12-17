@@ -99,7 +99,7 @@ public class DiaryDBHelper extends SQLiteOpenHelper {
             onePageDiaries.add(onePageDiary);
 
         }
-
+        cursor.close();//
         return onePageDiaries;
     }
 }
