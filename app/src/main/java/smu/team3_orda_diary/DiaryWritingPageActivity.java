@@ -1,5 +1,7 @@
 package smu.team3_orda_diary;
 
+import static smu.team3_orda_diary.DiaryListActivity.adapter;
+import static smu.team3_orda_diary.DiaryListActivity.diaryDBHelper;
 import static smu.team3_orda_diary.DiaryListActivity.diaryList;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +25,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
     Button insertPictureButton, selectBackColorButton, saveButton, feelButton, changeDateButton;
     EditText titleEditText, dateEditText, edittText;
     ImageView diaryImageView;
-    DiaryDBHelper diaryDBHelper;
+    //DiaryDBHelper diaryDBHelper;
     int count=0;
     // 날짜 관련
     DatePickerDialog datePickerDialog;
@@ -79,7 +81,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
         });
 
         /* 저장 */
-        diaryDBHelper = new DiaryDBHelper(this);
+        //diaryDBHelper = new DiaryDBHelper(this);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +99,10 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                         Log.d("내용 :" , diaryList.get(i).getText());
                     }
 
-
+                    adapter.notifyDataSetChanged();
+                    //recyclerview.invalidate();
+                    Intent intent = new Intent(getApplicationContext(), DiaryListActivity.class);
+                    startActivity(intent);
                 }
                 
                 // 안녕하세요

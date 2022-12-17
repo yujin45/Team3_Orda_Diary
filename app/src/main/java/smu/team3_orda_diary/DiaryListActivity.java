@@ -16,14 +16,17 @@ import java.util.ArrayList;
 public class DiaryListActivity extends AppCompatActivity {
     Button writeDiaryButton;
     RecyclerView recyclerView;
-    DiaryRecyclerViewAdapter adapter;
+    public static DiaryRecyclerViewAdapter adapter;
     public static ArrayList<OnePageDiary> diaryList;
-
+    public static DiaryDBHelper diaryDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_list);
+
+        diaryDBHelper = new DiaryDBHelper(this);
+        diaryList = diaryDBHelper.getResult();
 
         recyclerView = findViewById(R.id.recyclerView);
         writeDiaryButton = findViewById(R.id.writeDiaryButton);
