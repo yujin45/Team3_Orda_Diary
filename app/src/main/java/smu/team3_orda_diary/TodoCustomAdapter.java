@@ -94,7 +94,7 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
                                         String currentTime = new SimpleDateFormat("yyyy-MM-dd MM:mm:ss").format(new Date()).toString(); // 현재 시간 연월일시분초 받아오기
                                         String beforeTime = todoItem.getWriteDate();
 
-                                        mDBHelper.updateTodo(title, content, currentTime, beforeTime);
+                                        mDBHelper.UpdateTodo(title, content, currentTime, beforeTime);
 
                                         //update UI
                                         todoItem.setTitle(title);
