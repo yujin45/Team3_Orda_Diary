@@ -91,10 +91,10 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
                                         //update database
                                         String title = et_title.getText().toString();
                                         String content = et_content.getText().toString();
-                                        String currentTime = new SimpleDateFormat("yyyy-MM-dd MM:mm:ss").format(new Date()).toString(); // 현재 시간 연월일시분초 받아오기
+                                        String currentTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString(); // 현재 시간 연월일시분초 받아오기
                                         String beforeTime = todoItem.getWriteDate();
 
-                                        mDBHelper.UpdateTodo(title, content, currentTime, beforeTime);
+                                        mDBHelper.updateTodo(title, content, currentTime, beforeTime);
 
                                         //update UI
                                         todoItem.setTitle(title);

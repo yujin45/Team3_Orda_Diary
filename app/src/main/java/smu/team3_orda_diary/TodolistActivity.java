@@ -17,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -27,7 +28,7 @@ public class TodolistActivity extends AppCompatActivity {
     private ArrayList<TodoItem> mTodoItems;
     private DBHelper mDBHelper;
     private TodoCustomAdapter mAdapter;
-    String currentTime = new SimpleDateFormat("yyyy-MM-dd").format(new Date()).toString(); // 현재 시간 연월일 받아오기
+    private String currentTime = "";
 
 
 
@@ -49,6 +50,8 @@ public class TodolistActivity extends AppCompatActivity {
         int month = now.getMonthValue();
         int dayOfMonth = now.getDayOfMonth();
         today.setText(String.format("%d년 %d월 %d일",year,month,dayOfMonth));
+        currentTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        setInit();
         // 달력
         CalendarView calendar = findViewById(R.id.todo_calendar);
 
@@ -58,13 +61,14 @@ public class TodolistActivity extends AppCompatActivity {
                 month += 1;
                 today.setText(String.format("%d년 %d월 %d일",year,month,dayOfMonth));
                 String changeDate = String.format("%d-%d-%d",year,month,dayOfMonth);
-                Toast.makeText(TodolistActivity.this, changeDate, Toast.LENGTH_LONG).show();
                 currentTime = changeDate;
+                Toast.makeText(TodolistActivity.this, currentTime, Toast.LENGTH_LONG).show();
                 loadRecentDB(currentTime);
+                //mRv_todo.invalidate();
             }
         });
 
-        setInit();
+
 
 
 
@@ -101,7 +105,7 @@ public class TodolistActivity extends AppCompatActivity {
                         item.setWriteDate(currentTime);
 
                         mAdapter.addItem(item);
-                        mRv_todo.smoothScrollToPosition(0);
+                        //mRv_todo.smoothScrollToPosition(0);
                         dialog.dismiss();
                         Toast.makeText(TodolistActivity.this, "목록이 추가되었습니다.", Toast.LENGTH_LONG).show();
                     }
@@ -113,7 +117,7 @@ public class TodolistActivity extends AppCompatActivity {
     }
     private  void loadRecentDB(String writeDate){
         //저장되어있던 DB 를 가져온다.
-
+        writeDate = "2022-12-16";
         mTodoItems = mDBHelper.getTodoList(writeDate);
         if(mAdapter == null){
             mAdapter = new TodoCustomAdapter(mTodoItems, this);
