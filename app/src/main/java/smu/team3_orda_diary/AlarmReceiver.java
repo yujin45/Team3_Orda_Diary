@@ -30,7 +30,9 @@ public class AlarmReceiver extends BroadcastReceiver {
         flashLightOn();
         // 알림창도 만들기
         NotificationHelper notificationHelper = new NotificationHelper(context);
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
+        //NotificationCompat.Builder nb = notificationHelper.getChannelNotification(); // 기본
+        NotificationCompat.Builder nb = notificationHelper.getChannel2Notification("알람", "일어나세요!!!");
+
         // ▼ 화면 꺼진 상태에서도 확인할 수 있게 하는 부분
         PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         sCpuWakeLock = pm.newWakeLock(

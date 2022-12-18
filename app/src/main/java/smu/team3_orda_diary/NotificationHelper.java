@@ -62,6 +62,10 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationCompat.Builder getChannel2Notification(String title, String message){
+        // 알람 울리는 화면을 보여줌.
+        Intent intent = new Intent(getApplicationContext(), RingingAlarmActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         return new NotificationCompat.Builder(getApplicationContext(), channel2ID)
                 .setContentTitle(title)
                 .setContentText(message)
@@ -69,10 +73,6 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     public NotificationCompat.Builder getChannelNotification(){
-        // 소리 나게 함
-        //MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.younha);   // 소리를 재생할 MediaPlayer
-        //mediaPlayer.setLooping(true);   // 무한반복
-        //mediaPlayer.start();
         // 알람 울리는 화면을 보여줌.
         Intent intent = new Intent(getApplicationContext(), RingingAlarmActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
