@@ -34,7 +34,7 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
     private float lastZ;
     private float x, y, z;
 
-    private static final int SHAKE_THRESHOLD = 10000;
+    private static final int SHAKE_THRESHOLD = 20000;
     private static final int DATA_X = SensorManager.DATA_X;
     private static final int DATA_Y = SensorManager.DATA_Y;
     private static final int DATA_Z = SensorManager.DATA_Z;
@@ -44,7 +44,7 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
     //알람 관련
     Calendar calendar;
     Button stopButton;
-    TextView timeText, shakeText;
+    TextView timeText, shakeText, textViewSpeed, textViewNowSpeed;
     //MediaPlayer mediaPlayer;
     boolean flag = true;
 
@@ -63,12 +63,14 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
         //센서 관련
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         accelerormeterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
         //알람 관련
         calendar = Calendar.getInstance();
-        stopButton = (Button) findViewById(R.id.stopButton);
+        //stopButton = (Button) findViewById(R.id.stopButton);
         timeText = (TextView) findViewById(R.id.timeTextView);
-        shakeText = findViewById(R.id.textViewShake);
-   
+        //shakeText = findViewById(R.id.textViewShake);
+        //textViewSpeed = findViewById(R.id.textViewSpeed);
+        textViewNowSpeed = findViewById(R.id.textViewNowSpeed);
         /*
         FLAG_KEEP_SCREEN_ON : Screen 을 켜진 상태로 유지
         FLAG_DISMISS_KEYGUARD : Keyguard를 해지
@@ -137,6 +139,7 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
         }
         //flashLightOn();*/
         // 개발중 테스트하기 위해 만들어둔 버튼. 개발 완료시 없앨거임
+        /*
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,7 +148,7 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
                 finish();
             }
         });
-
+        */
     }
     //////////////OnCreate
 
@@ -182,8 +185,10 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
                 z = event.values[SensorManager.DATA_Z];
 
                 speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime * 10000;
+                Log.d("speed 측정중 ", String.valueOf(speed));
+                textViewNowSpeed.setText("▶ "+ speed);
                 if (speed > SHAKE_THRESHOLD) {
-                    Log.d("speed 측정중 ", String.valueOf(speed));
+
                     // 임계값 넘으면 이벤트 발생 부분!
                     Toast toast = Toast.makeText(getApplicationContext(), "흔들기 완료!", Toast.LENGTH_SHORT);
                     mediaPlayer.stop();

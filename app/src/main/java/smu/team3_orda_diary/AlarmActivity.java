@@ -1,5 +1,7 @@
 package smu.team3_orda_diary;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -16,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -27,7 +30,7 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
 
 
     private AlarmManager alarmManager;
-    Button makeButton, deleteButton;
+    ImageButton makeButton, deleteButton;
     TextView mTextView;
     private static CameraManager mCameraManager;
     private static boolean mFlashOn = false;
@@ -98,7 +101,7 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
     }
     // 알람을 몇시에 맞춰뒀는지 보여줌
     private void updateTimeText(Calendar c){
-        String timeText = "알람 맞춰짐 : ";
+        String timeText = "알람 맞춰짐 \n";
         timeText += DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
         mTextView.setText(timeText);
     }
@@ -109,7 +112,7 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
         PendingIntent pendingIntent;
         // 오레오 버전 등등 flag처리를 해줘야 함
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            pendingIntent = PendingIntent.getBroadcast(this, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT | FLAG_IMMUTABLE);
         }else {
             pendingIntent = PendingIntent.getBroadcast(this, 0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
@@ -123,7 +126,8 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
     private void cancelAlarm(){
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, FLAG_IMMUTABLE);
+
         alarmManager.cancel(pendingIntent);
         mTextView.setText("알람 취소됨");
     }
