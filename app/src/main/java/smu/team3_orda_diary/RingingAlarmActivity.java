@@ -1,15 +1,21 @@
 package smu.team3_orda_diary;
 
+import static smu.team3_orda_diary.AlarmActivity.flashLightOff;
 import static smu.team3_orda_diary.AlarmReceiver.mediaPlayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -28,7 +34,7 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
     private float lastZ;
     private float x, y, z;
 
-    private static final int SHAKE_THRESHOLD = 3000;
+    private static final int SHAKE_THRESHOLD = 10000;
     private static final int DATA_X = SensorManager.DATA_X;
     private static final int DATA_Y = SensorManager.DATA_Y;
     private static final int DATA_Z = SensorManager.DATA_Z;
@@ -41,7 +47,13 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
     TextView timeText, shakeText;
     //MediaPlayer mediaPlayer;
     boolean flag = true;
-    
+
+    /*
+    // 플래시 관련
+    private static CameraManager mCameraManager;
+    private static boolean mFlashOn = false;
+    public static String mCameraId;
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,7 +109,33 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
                 }
             }
         }).start(); 
-        
+
+        /*
+        // 플래시
+        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+            // .. 플래시 켜기
+            mCameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
+            if (mCameraId == null) {
+                try {
+                    for (String id : mCameraManager.getCameraIdList()) {
+                        CameraCharacteristics c = mCameraManager.getCameraCharacteristics(id);
+                        Boolean flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+                        Integer lensFacing = c.get(CameraCharacteristics.LENS_FACING);
+                        if (flashAvailable != null && lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
+                            mCameraId = id;
+                            break;
+                        }
+                    }
+                } catch (CameraAccessException e) {
+                    mCameraId = null;
+                    e.printStackTrace();
+                }
+            }
+        }
+        else {
+            // .. 플래쉬 지원하지 않음.
+        }
+        //flashLightOn();*/
         // 개발중 테스트하기 위해 만들어둔 버튼. 개발 완료시 없앨거임
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,9 +183,11 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
 
                 speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime * 10000;
                 if (speed > SHAKE_THRESHOLD) {
+                    Log.d("speed 측정중 ", String.valueOf(speed));
                     // 임계값 넘으면 이벤트 발생 부분!
                     Toast toast = Toast.makeText(getApplicationContext(), "흔들기 완료!", Toast.LENGTH_SHORT);
                     mediaPlayer.stop();
+                    flashLightOff();
                     flag=false;
                     finish();
                 }
@@ -164,4 +204,32 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
         Toast toast = Toast.makeText(getApplicationContext(), "알람을 꺼주세요!!", Toast.LENGTH_SHORT);
         toast.show();
     }
+
+/*
+// 플래시 관련
+    public static void flashLightOn() {
+        mFlashOn = true;
+        try {
+            mCameraManager.setTorchMode(mCameraId, true);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void flashLightOff() {
+        mFlashOn = false;
+        try {
+            mCameraManager.setTorchMode(mCameraId, false);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sleep(int time){
+        try{
+            Thread.sleep(time);
+        } catch (InterruptedException e){
+        }
+    }
+*/
 }

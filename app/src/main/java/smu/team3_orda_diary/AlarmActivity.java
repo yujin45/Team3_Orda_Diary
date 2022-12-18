@@ -8,6 +8,10 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +29,9 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
     private AlarmManager alarmManager;
     Button makeButton, deleteButton;
     TextView mTextView;
-
+    private static CameraManager mCameraManager;
+    private static boolean mFlashOn = false;
+    public static String mCameraId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +61,31 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
             }
         });
 
+        // 리시버에서 바로 플래시 킬 수 있게 여기에서 플래시 관련 설정
+        // 플래시
+        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+            // .. 플래시 켜기
+            mCameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
+            if (mCameraId == null) {
+                try {
+                    for (String id : mCameraManager.getCameraIdList()) {
+                        CameraCharacteristics c = mCameraManager.getCameraCharacteristics(id);
+                        Boolean flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
+                        Integer lensFacing = c.get(CameraCharacteristics.LENS_FACING);
+                        if (flashAvailable != null && lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
+                            mCameraId = id;
+                            break;
+                        }
+                    }
+                } catch (CameraAccessException e) {
+                    mCameraId = null;
+                    e.printStackTrace();
+                }
+            }
+        }
+        else {
+            // .. 플래쉬 지원하지 않음.
+        }
     }
     // 타임피커로 시간 설정하면 아래가 불러져서 시간이 설정됨
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -96,5 +127,29 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
         alarmManager.cancel(pendingIntent);
         mTextView.setText("알람 취소됨");
     }
-    
+    // 플래시 관련
+    public static void flashLightOn() {
+        mFlashOn = true;
+        try {
+            mCameraManager.setTorchMode(mCameraId, true);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void flashLightOff() {
+        mFlashOn = false;
+        try {
+            mCameraManager.setTorchMode(mCameraId, false);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sleep(int time){
+        try{
+            Thread.sleep(time);
+        } catch (InterruptedException e){
+        }
+    }
 }

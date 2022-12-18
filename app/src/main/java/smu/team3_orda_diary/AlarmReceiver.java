@@ -1,10 +1,14 @@
 package smu.team3_orda_diary;
 
 
+import static smu.team3_orda_diary.AlarmActivity.flashLightOn;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+
 import android.media.MediaPlayer;
 import android.os.PowerManager;
 import android.widget.Toast;
@@ -13,6 +17,7 @@ import androidx.core.app.NotificationCompat;
 public class AlarmReceiver extends BroadcastReceiver {
     public static MediaPlayer mediaPlayer;
     private static PowerManager.WakeLock sCpuWakeLock;
+
     public AlarmReceiver(){}
     @SuppressLint("InvalidWakeLockTag")
     @Override
@@ -22,6 +27,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         mediaPlayer = MediaPlayer.create(context,R.raw.younha);   // 소리를 재생할 MediaPlayer
         mediaPlayer.setLooping(true);   // 무한반복
         mediaPlayer.start();
+        flashLightOn();
         // 알림창도 만들기
         NotificationHelper notificationHelper = new NotificationHelper(context);
         NotificationCompat.Builder nb = notificationHelper.getChannelNotification();
@@ -36,4 +42,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // 알림창
         notificationHelper.getManager().notify(1,nb.build());
     }
+
+
+
 }
