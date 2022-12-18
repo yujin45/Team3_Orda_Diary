@@ -37,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.INTERNET,
-                Manifest.permission.RECORD_AUDIO
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.CAMERA
         };
         checkPermissions(permissions); // 권한 허용할 것인지 물어보는 것 부분 함수
         // 버튼 클릭시

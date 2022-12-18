@@ -36,7 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DiaryWritingPageActivity extends AppCompatActivity {
-    Button insertPictureButton, insertCameraButton, selectBackColorButton, saveButton, feelButton, changeDateButton;
+    Button insertPictureButton, insertCameraButton, recordButton, saveButton, feelButton, changeDateButton;
     EditText titleEditText, dateEditText, editText;
     ImageView diaryImageView;
     //DiaryDBHelper diaryDBHelper;
@@ -67,7 +67,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
 
         insertPictureButton = findViewById(R.id.insertPictureButton);
         insertCameraButton = findViewById(R.id.insertCameraButton);
-        selectBackColorButton = findViewById(R.id.selectBackColorButton);
+        recordButton = findViewById(R.id.recordButton);
         saveButton = findViewById(R.id.saveButton);
         feelButton = findViewById(R.id.feelButton);
         changeDateButton = findViewById(R.id.changeDateButton);
@@ -137,7 +137,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
         recordIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         recordIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
         recordIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");   //한국어
-        selectBackColorButton.setOnClickListener(new View.OnClickListener() {
+        recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!recording) {   //녹음 시작
@@ -270,7 +270,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
 
         //마이크 이미지와 텍스트 변경
         //recordBtn.setImageResource(R.drawable.stop_record);
-        selectBackColorButton.setText("음성 녹음 중지");
+        recordButton.setText("음성 녹음 변환 중지");
 
         speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
         speechRecognizer.setRecognitionListener(listener);
@@ -283,7 +283,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
 
         //마이크 이미지와 텍스트 변경
         //recordBtn.setImageResource(R.drawable.start_record);
-        selectBackColorButton.setText("음성 녹음 시작");
+        recordButton.setText("음성 녹음 변환 시작");
 
         speechRecognizer.stopListening();   //녹음 중지
         Toast.makeText(getApplicationContext(), "음성 기록을 중지합니다.", Toast.LENGTH_SHORT).show();
