@@ -1,12 +1,15 @@
 package smu.team3_orda_diary;
 
+// 필요한 것
 import static smu.team3_orda_diary.MainActivity.mDBHelper;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Dialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+// 기본적인 것
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,11 +19,6 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 

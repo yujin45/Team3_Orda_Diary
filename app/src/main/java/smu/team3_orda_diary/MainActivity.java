@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         accountBookBtn = findViewById(R.id.button2);
         diaryBtn = findViewById(R.id.button3);
         alarmBtn = findViewById(R.id.button4);
-// 접근 권한 요청, 권한을 부여할 권한 지정하는 부분
+        // 접근 권한 요청, 권한을 부여할 권한 지정하는 부분
         // 이미지들 가져올 것이라 외부 저장소 읽는 것 권한 받기
         String[] permissions = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -76,15 +76,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-
-
-
-
-
-
 
     // 앱을 맨 처음 실행했을 때 권한 permission 허용을 요청하는 함수
     public void checkPermissions(String[] permissions) {
