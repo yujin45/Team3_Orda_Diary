@@ -1,6 +1,7 @@
 package smu.team3_orda_diary;
 
 import static smu.team3_orda_diary.DiaryListActivity.diaryList;
+import static smu.team3_orda_diary.MainActivity.mDBHelper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +10,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +20,8 @@ public class DiarySelectedActivity extends AppCompatActivity {
     OnePageDiary clickDiary;
     ImageView photoImageView;
     TextView titleTextView, dateTextView, feelTextView, textTextView;
-    String title, date, feel, text;
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +46,6 @@ public class DiarySelectedActivity extends AppCompatActivity {
         dateTextView.setText(clickDiary.getDate());
         feelTextView.setText(clickDiary.getFeel());
         textTextView.setText(clickDiary.getText());
-
-
 
     }
 }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 
 import java.lang.reflect.Array;
+import java.nio.channels.InterruptedByTimeoutException;
 import java.util.ArrayList;
 
 public class DiaryListActivity extends AppCompatActivity {
@@ -27,8 +28,6 @@ public class DiaryListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_list);
 
-        //diaryDBHelper = new DiaryDBHelper(this);
-        //diaryList = diaryDBHelper.getResult();
         diaryList = mDBHelper.getResult();
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -58,4 +57,12 @@ public class DiaryListActivity extends AppCompatActivity {
         }
 
     }
+
+    // 일기 계속 쓰다가 완료 후 뒤로 가면 리스트에서 바로 다시 메인으로 갈 수 있게 처리리
+   @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
 }

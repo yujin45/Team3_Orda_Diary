@@ -119,7 +119,7 @@ public class DBHelper extends SQLiteOpenHelper
         // db.close();
     }
 
-    public void delete(String diary_id) {
+    public void delete(int diary_id) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE DIARY_TB WHERE DIARY_ID = '" + diary_id + "'");
         //db.close();
