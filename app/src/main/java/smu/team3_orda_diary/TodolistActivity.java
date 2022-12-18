@@ -19,18 +19,16 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 public class TodolistActivity extends AppCompatActivity {
     
     private RecyclerView mRv_todo;
     private FloatingActionButton mBtn_Write;
     private ArrayList<TodoItem> mTodoItems;
-    //private DBHelper mDBHelper;
     private TodoCustomAdapter mAdapter;
     private String currentTime = "";
 
@@ -44,20 +42,7 @@ public class TodolistActivity extends AppCompatActivity {
 
         mRv_todo= findViewById(R.id.rv_todo);
         mBtn_Write= findViewById(R.id.todo_btn_write);
-       // mDBHelper = new DBHelper(this);
 
-
-        /*
-        // 날짜 기초값 세팅
-        final TextView today = findViewById(R.id.todo_today);
-        LocalDate now = LocalDate.now();
-        int year = now.getYear();
-        int month = now.getMonthValue();
-        int dayOfMonth = now.getDayOfMonth();
-        today.setText(String.format("%d년 %d월 %d일",year,month,dayOfMonth));
-        currentTime = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-
-        */
         today = findViewById(R.id.todo_today);
         now = LocalDate.now();
         year = now.getYear();
@@ -79,13 +64,9 @@ public class TodolistActivity extends AppCompatActivity {
                 currentTime = changeDate;
                 Toast.makeText(TodolistActivity.this, currentTime, Toast.LENGTH_LONG).show();
                 loadRecentDB(currentTime);
-                //mRv_todo.invalidate();
+
             }
         });
-
-
-
-
 
     }
     private void setInit(){
@@ -112,18 +93,6 @@ public class TodolistActivity extends AppCompatActivity {
                         String content = et_content.getText().toString();
                         mDBHelper.insertTodo(title, content, currentTime);
 
-                        /*
-                        //Insert UI 일단 주석함
-                        TodoItem item = new TodoItem();
-
-                        item.setTitle(title);
-                        item.setContent(content);
-                        item.setWriteDate(currentTime);
-
-                        mAdapter.addItem(item);
-
-                         */
-                        //mRv_todo.smoothScrollToPosition(0);
                         dialog.dismiss();
                         Toast.makeText(TodolistActivity.this, "목록이 추가되었습니다.", Toast.LENGTH_LONG).show();
                         // 화면을 refresh해줘야 함
