@@ -30,8 +30,12 @@ public class DiaryListActivity extends AppCompatActivity {
         writeDiaryButton = findViewById(R.id.writeDiaryButton);
         
         // 현재 데이터베이스의 DIARY_TB 내의 일기들을 가져옴
-        diaryList = mDBHelper.getResult();
-        
+        //diaryList = mDBHelper.getResult();
+        try {
+            diaryList = mDBHelper.getResult();
+        }catch (Exception e){
+            Log.e("에러 ", e.toString());
+        }
         // 일기 쓰기 버튼 눌렀을 때
         writeDiaryButton.setOnClickListener(new View.OnClickListener() {
             @Override

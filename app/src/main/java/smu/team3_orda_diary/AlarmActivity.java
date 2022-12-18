@@ -42,6 +42,7 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
     private static boolean mFlashOn = false;
     public static String mCameraId;
     Calendar alarmC;
+    String alarmTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +54,13 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         
         // 알람 이미 있는 경우
-        String alarmTime= mDBHelper.getAlarmTime();
-        Log.d("alarmTime", alarmTime);
+        /**/
+        try {
+            alarmTime= mDBHelper.getAlarmTime();
+            Log.d("alarmTime", alarmTime);
+        }catch (Exception e){
+            Log.e("에러 ", e.toString());
+        }
         if (alarmTime!= null){
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class DBHelper extends SQLiteOpenHelper
 {
     public static final int DB_VERSION = 1;
-    public static final String DB_NAME = "Ordatest1.db";
+    public static final String DB_NAME = "Ordatest3.db";
 
     public DBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
