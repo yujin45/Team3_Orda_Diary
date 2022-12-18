@@ -3,10 +3,6 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
-        jcenter()
-        maven{
-            url 'https://naver.jfrog.io/artifactory/maven/'
-        }
     }
 }
 dependencyResolutionManagement {
@@ -14,10 +10,6 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        jcenter()
-        maven{
-            url 'https://naver.jfrog.io/artifactory/maven/'
-        }
     }
 }
 rootProject.name = "Team3_Orda_Diary"

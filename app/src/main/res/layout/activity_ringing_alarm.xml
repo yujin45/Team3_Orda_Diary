@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="445dp"
+        android:layout_height="787dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,19 +21,19 @@
         android:layout_width="289dp"
         android:layout_height="42dp"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="79dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="44dp"
         android:layout_marginBottom="613dp"
+        android:gravity="center"
         android:text="시간"
         android:textColor="@color/white"
         android:textSize="15pt"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.823"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textViewNowSpeed"
@@ -44,13 +44,15 @@
         android:layout_marginEnd="64dp"
         android:layout_marginBottom="88dp"
         android:text="현재 Speed"
+        android:textColor="@color/black"
         android:textSize="12pt"
         android:textStyle="bold"
-        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.722"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.87" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
