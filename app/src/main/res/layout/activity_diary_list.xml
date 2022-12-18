@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="#B8E6FF"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,8 +27,8 @@
         android:layout_marginBottom="16dp"
         android:text="일기 쓰기"
         android:textStyle="bold"
-        android:textColor="@color/white"
-        android:background="@drawable/orda_ripple_effect"
+        android:textColor="@color/black"
+        android:background="@drawable/orda_ripple_borderless"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

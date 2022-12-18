@@ -22,22 +22,30 @@
                 android:id="@+id/insertPictureButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="갤러리 사진 넣기" />
+                android:layout_weight="1"
+                android:background="@drawable/orda_ripple_borderless"
+                android:text="갤러리" />
             <Button
                 android:id="@+id/insertCameraButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="카메라 사진 넣기" />
+                android:layout_weight="1"
+                android:background="@drawable/orda_ripple_borderless"
+                android:text="카메라" />
             <Button
                 android:id="@+id/recordButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="녹음시작" />
+                android:layout_weight="1"
+                android:background="@drawable/orda_ripple_borderless"
+                android:text="STT" />
 
             <Button
                 android:id="@+id/saveButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/orda_ripple_borderless"
                 android:text="완료" />
         </LinearLayout>
 
@@ -62,11 +70,13 @@
                 android:inputType="textPersonName"
                 android:text="제목 입력" />
 
+
             <Button
                 android:id="@+id/feelButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/orda_ripple_borderless"
                 android:text="기분" />
         </LinearLayout>
 
@@ -96,6 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/orda_ripple_borderless"
                 android:text="날짜변경" />
         </LinearLayout>
 
@@ -107,7 +118,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:scaleType="fitCenter"
-        android:src="@drawable/pika" />
+        android:src="@drawable/notice_insert_image"/>
 
     <EditText
         android:id="@+id/editText"

@@ -58,27 +58,35 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Log.d(TAG, "onBindViewHolder");
         MyViewHolder myViewHolder = (MyViewHolder) holder;
-        myViewHolder.diaryTitleTextView.setText(dataModels.get(position).getText());
+        myViewHolder.diaryTitleTextView.setText(dataModels.get(position).getTitle());
         myViewHolder.diaryDateTextView.setText(dataModels.get(position).getDate());
         myViewHolder.diaryFeelTextView.setText(dataModels.get(position).getFeel());
         myViewHolder.diaryTextView.setText(dataModels.get(position).getText());
         String picture_uri = dataModels.get(position).getPicture_uri();
         myViewHolder.diarySavedImageView.setImageURI(Uri.parse(picture_uri));
-       // myViewHolder.imageViewMoment.setImageBitmap(dataModels.get(position).getBitmapImage());
-        // ▼ 리사이클러 내의 아이템 클릭시 동작하는 부분
-        /*
+
+        //▼ 리사이클러 내의 아이템 클릭시 동작하는 부분
+
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(context, position+"번째 아이템 클릭", Toast.LENGTH_SHORT).show();
                 // 인텐트로 넘겨줘야 하는 부분
-                Intent intent = new Intent(myViewHolder.itemView.getContext(), BeautifulMoment.class);
+                Intent intent = new Intent(myViewHolder.itemView.getContext(), DiarySelectedActivity.class);
                 intent.putExtra("clickPosition", position); // position으로 array접근해서 보여주기
+                /*
+                intent.putExtra("title", dataModels.get(position).getTitle());
+                intent.putExtra("date", dataModels.get(position).getDate());
+                intent.putExtra("feel", dataModels.get(position).getFeel());
+                intent.putExtra("uri", dataModels.get(position).getPicture_uri());
+                intent.putExtra("text", dataModels.get(position).getText());
+
+                 */
                 ContextCompat.startActivity(myViewHolder.itemView.getContext(), intent, null);
             }
         });
 
-         */
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@drawable/orda_ripple_borderless"
         android:text="일정관리" />
 
     <Button
@@ -21,6 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@drawable/orda_ripple_borderless"
         android:text="가계부" />
 
     <Button
@@ -28,6 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@drawable/orda_ripple_borderless"
         android:text="일기장" />
 
     <Button
@@ -35,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/orda_ripple_effect"
+        android:background="@drawable/orda_ripple_borderless"
+
         android:text="알람설정" />
 </LinearLayout>
