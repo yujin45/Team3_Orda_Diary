@@ -50,9 +50,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
     String weekList[] = {"", "일", "월", "화", "수", "목", "금", "토"};
 
     // 기분 관련
-    int nSelectItem;
-    public static String oItems[] = {"기쁨", "슬픔", "화남", "우울", "복잡미묘", "모르겠음", "최고로 행복"};
-    String feel = "선택 안함";
+    String []items= {"기쁨", "슬픔", "화남", "우울", "복잡미묘", "모르겠음", "최고로 행복"};
     // 이미지 관련
     Uri imageUri;
 
@@ -113,33 +111,23 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
-        AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
-                android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+
         /* 기분 */
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("기분 선택")
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getApplicationContext(), items[which], Toast.LENGTH_SHORT).show();
+                        feelButton.setText(items[which]);
+                    }
+                })
+                .create();
         feelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                oDialog.setTitle("색상을 선택하세요")
-                        .setSingleChoiceItems(oItems, -1, new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                nSelectItem = which;
-                            }
-                        })
-                        .setNeutralButton("선택", new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int which)
-                            {
-                                if (which >= 0){ Toast.makeText(getApplicationContext(),
-                                        oItems[nSelectItem], Toast.LENGTH_LONG).show();
-                                    feel = oItems[nSelectItem];
-                                }
-                            }
-                        })
-                        .setCancelable(false)
-                        .show();
+
+                alertDialog.show();
             }
         });
         /* 카메라 이미지 넣기 */
@@ -193,7 +181,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "이미지를 삽입해주세요", Toast.LENGTH_SHORT).show();
                 }else{
                     diaryDBHelper.insert( titleEditText.getText().toString(), dateEditText.getText().toString(),
-                            feel.toString(), imageUri.toString(), editText.getText().toString());
+                            feelButton.getText().toString(), imageUri.toString(), editText.getText().toString());
                     //ArrayList<OnePageDiary> onePageDiaries = diaryDBHelper.getResult();
                     diaryList = diaryDBHelper.getResult();
                     for(int i =0; i<diaryList.size(); i++){
