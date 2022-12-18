@@ -33,7 +33,7 @@ public class DBHelper extends SQLiteOpenHelper
                 "TITLE TEXT NOT NULL, " +
                 "DATE TEXT NOT NULL, " +
                 "FEEL TEXT NOT NULL," +
-                "PICTURE_URI TEXT ," +
+                "PICTURE_URI TEXT NOT NULL," +
                 "TEXT TEXT NOT NULL);");
 
         // 알람 관련
