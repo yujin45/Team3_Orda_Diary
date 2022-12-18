@@ -1,6 +1,5 @@
 package smu.team3_orda_diary;
 
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
-
-import java.net.URI;
+// 일기를 담아둘 리스트
 import java.util.ArrayList;
 
 // 리사이클러 뷰를 사용하기 위한 어댑터: 이전 예약 과제에서 만든 것 재활용

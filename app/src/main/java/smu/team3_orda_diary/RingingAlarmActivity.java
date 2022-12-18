@@ -1,28 +1,25 @@
 package smu.team3_orda_diary;
 
+/* 필요한 것 */
 import static smu.team3_orda_diary.AlarmActivity.flashLightOff;
 import static smu.team3_orda_diary.AlarmReceiver.mediaPlayer;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.pm.PackageManager;
+/* 가속도 센서 위한 것들 */
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraManager;
-import android.media.MediaPlayer;
+/* 잠금화면 위에 뜨게 하는 것 */
+import android.view.WindowManager;
+/* 시간 지나는 것 표시용 */
+import java.util.Calendar;
+// 그외 필요한 것
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Calendar;
 
 // 알림 울리는 화면 - 가속도 센서를 이용하여 흔들림을 감지해 일정 수치 이상이면 노래도 끄고 화면도 종료
 public class RingingAlarmActivity extends AppCompatActivity implements SensorEventListener {
@@ -41,19 +38,12 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
 
     private SensorManager sensorManager;
     private Sensor accelerormeterSensor;
+
     //알람 관련
     Calendar calendar;
-    Button stopButton;
-    TextView timeText, shakeText, textViewSpeed, textViewNowSpeed;
-    //MediaPlayer mediaPlayer;
+    TextView timeText, textViewNowSpeed;
     boolean flag = true;
 
-    /*
-    // 플래시 관련
-    private static CameraManager mCameraManager;
-    private static boolean mFlashOn = false;
-    public static String mCameraId;
-    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,17 +56,9 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
 
         //알람 관련
         calendar = Calendar.getInstance();
-        //stopButton = (Button) findViewById(R.id.stopButton);
         timeText = (TextView) findViewById(R.id.timeTextView);
-        //shakeText = findViewById(R.id.textViewShake);
-        //textViewSpeed = findViewById(R.id.textViewSpeed);
         textViewNowSpeed = findViewById(R.id.textViewNowSpeed);
-        /*
-        FLAG_KEEP_SCREEN_ON : Screen 을 켜진 상태로 유지
-        FLAG_DISMISS_KEYGUARD : Keyguard를 해지
-        FLAG_TURN_SCREEN_ON : Screen On
-        FLAG_SHOW_WHEN_LOCKED : Lock 화면 위로 실행
-        * */
+
         // 잠금 화면 위로 activity 띄워줌
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
@@ -84,11 +66,7 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
                 | WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 
         // 앱 화면을 안 보고 있더라도 음악이 나올 수 있게 알람 리시버에서 인식하면 노래 나오도록 함
-        /*
-        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.younha);   // 소리를 재생할 MediaPlayer
-        mediaPlayer.setLooping(true);   // 무한반복
-        mediaPlayer.start();
-        */
+
         // 알람이 울리는 동안 몇초가 지났는지 확인하기 위해 실시간으로 시계 출력
         new Thread(new Runnable() {
             @Override
@@ -112,43 +90,6 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
             }
         }).start(); 
 
-        /*
-        // 플래시
-        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-            // .. 플래시 켜기
-            mCameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
-            if (mCameraId == null) {
-                try {
-                    for (String id : mCameraManager.getCameraIdList()) {
-                        CameraCharacteristics c = mCameraManager.getCameraCharacteristics(id);
-                        Boolean flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);
-                        Integer lensFacing = c.get(CameraCharacteristics.LENS_FACING);
-                        if (flashAvailable != null && lensFacing == CameraCharacteristics.LENS_FACING_BACK) {
-                            mCameraId = id;
-                            break;
-                        }
-                    }
-                } catch (CameraAccessException e) {
-                    mCameraId = null;
-                    e.printStackTrace();
-                }
-            }
-        }
-        else {
-            // .. 플래쉬 지원하지 않음.
-        }
-        //flashLightOn();*/
-        // 개발중 테스트하기 위해 만들어둔 버튼. 개발 완료시 없앨거임
-        /*
-        stopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mediaPlayer.stop();
-                flag=false;
-                finish();
-            }
-        });
-        */
     }
     //////////////OnCreate
 
@@ -210,31 +151,4 @@ public class RingingAlarmActivity extends AppCompatActivity implements SensorEve
         toast.show();
     }
 
-/*
-// 플래시 관련
-    public static void flashLightOn() {
-        mFlashOn = true;
-        try {
-            mCameraManager.setTorchMode(mCameraId, true);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void flashLightOff() {
-        mFlashOn = false;
-        try {
-            mCameraManager.setTorchMode(mCameraId, false);
-        } catch (CameraAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sleep(int time){
-        try{
-            Thread.sleep(time);
-        } catch (InterruptedException e){
-        }
-    }
-*/
 }

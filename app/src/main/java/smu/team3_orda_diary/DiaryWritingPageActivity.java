@@ -1,16 +1,13 @@
 package smu.team3_orda_diary;
 
+import androidx.appcompat.app.AppCompatActivity;
+// 각종 필요한 것들 불러오기
 import static smu.team3_orda_diary.DiaryListActivity.adapter;
 import static smu.team3_orda_diary.DiaryListActivity.diaryList;
 import static smu.team3_orda_diary.MainActivity.mDBHelper;
-
-import androidx.appcompat.app.AppCompatActivity;
+/* 카메라 촬영 관련 */
+// 카메라 촬영하여 uri 얻고 제대로 화면에 표시하는 등에 필요한 것들
 import androidx.core.content.FileProvider;
-
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -19,46 +16,48 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import java.io.File;
+import java.io.IOException;
+/* 기분 선택 관련 다이얼로그 */
+import android.app.AlertDialog;
+/* 날짜 선택 관련 */
+// 다이얼로그, Date, Calendar 사용해 선택 날짜 가져옴
+import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.widget.DatePicker;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+/* 음성인식 STT 관련 */
+// 안드로이드에서 제공하는 STT 방법 사용
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.util.Log;
+// 기본적인 것들
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+
 
 public class DiaryWritingPageActivity extends AppCompatActivity {
     Button insertPictureButton, insertCameraButton, recordButton, saveButton, feelButton, changeDateButton;
     EditText titleEditText, dateEditText, editText;
     ImageView diaryImageView;
-    //DiaryDBHelper diaryDBHelper;
-    int count=0;
     // 날짜 관련
     DatePickerDialog datePickerDialog;
     Calendar dirayCalendar;
     int diaryYear, diaryMonth, diaryDay, diaryWeek;
-    String weekList[] = {"", "일", "월", "화", "수", "목", "금", "토"};
-
     // 기분 관련
     String []items= {"기쁨", "슬픔", "화남", "우울", "복잡미묘", "모르겠음", "최고로 행복"};
     // 이미지 관련
     Uri imageUri;
-
     // 카메라 관련
     private static final int REQUEST_IMAGE_CAPTURE = 672;
     private String imageFilePath;
-    //private Uri photoUri;
-
     // 녹음 관련
     SpeechRecognizer speechRecognizer;
     Intent recordIntent;
@@ -75,13 +74,10 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         feelButton = findViewById(R.id.feelButton);
         changeDateButton = findViewById(R.id.changeDateButton);
-
         titleEditText = findViewById(R.id.titleEditText);
         dateEditText = findViewById(R.id.dateEditText);
         editText = findViewById(R.id.editText);
-
         diaryImageView = findViewById(R.id.diaryImageView);
-
 
         /* 날짜 */
         // 현재 날짜로 자동 설정 (버튼으로 날짜 수정은 아래에)
@@ -130,6 +126,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+
         /* 카메라 이미지 넣기 */
         insertCameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,9 +139,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                     } catch (IOException ex) {
                         // Error occurred while creating the File
                     }
-
                     if (photoFile != null) {
-                        //photoUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
                         imageUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName()+".fileprovider", photoFile);
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -153,8 +148,7 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
             }
         });
 
-        /* STT 일단 배경지 버튼에 테스트 */
-        //RecognizerIntent 객체 생성
+        /* STT  */
         recordIntent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         recordIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,getPackageName());
         recordIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");   //한국어
@@ -172,7 +166,6 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
         });
 
         /* 저장 */
-        //diaryDBHelper = new DiaryDBHelper(this);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,26 +175,13 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                 }else{
                     mDBHelper.insert( titleEditText.getText().toString(), dateEditText.getText().toString(),
                             feelButton.getText().toString(), imageUri.toString(), editText.getText().toString());
-
                     diaryList = mDBHelper.getResult();
-                    for(int i =0; i<diaryList.size(); i++){
-                        Log.d("-------\n제목 :" ,diaryList.get(i).getTitle());
-                        Log.d("날짜 :" , diaryList.get(i).getDate());
-                        Log.d("내용 :" , diaryList.get(i).getText());
-                    }
-
                     adapter.notifyDataSetChanged();
-                    //recyclerview.invalidate();
                     Intent intent = new Intent(getApplicationContext(), DiaryListActivity.class);
                     startActivity(intent);
                 }
-                
-                // 안녕하세요
-
             }
         });
-
-
 
     }
     /////////ONCREATE
@@ -232,7 +212,6 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                 if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
                     Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
                     ExifInterface exif = null;
-
                     try {
                         exif = new ExifInterface(imageFilePath);
                     } catch (IOException e) {
@@ -248,7 +227,6 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                     } else {
                         exifDegree = 0;
                     }
-
                     ((ImageView)findViewById(R.id.diaryImageView)).setImageBitmap(rotate(bitmap, exifDegree));
                 }
         }
@@ -284,13 +262,12 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
         imageFilePath = image.getAbsolutePath();
         return image;
     }
+
     // 녹음 관련
-    //녹음 시작
+    // 녹음 시작
     void startRecord() {
         recording = true;
 
-        //마이크 이미지와 텍스트 변경
-        //recordBtn.setImageResource(R.drawable.stop_record);
         recordButton.setText("음성 녹음 변환 중지");
 
         speechRecognizer=SpeechRecognizer.createSpeechRecognizer(getApplicationContext());
@@ -302,8 +279,6 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
     void stopRecord() {
         recording = false;
 
-        //마이크 이미지와 텍스트 변경
-        //recordBtn.setImageResource(R.drawable.start_record);
         recordButton.setText("음성 녹음 변환 시작");
 
         speechRecognizer.stopListening();   //녹음 중지
@@ -313,7 +288,6 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
     RecognitionListener listener = new RecognitionListener() {
         @Override
         public void onReadyForSpeech(Bundle bundle) {
-
         }
 
         @Override
@@ -323,12 +297,10 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
 
         @Override
         public void onRmsChanged(float v) {
-
         }
 
         @Override
         public void onBufferReceived(byte[] bytes) {
-
         }
 
         @Override

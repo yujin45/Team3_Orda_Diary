@@ -1,16 +1,15 @@
 package smu.team3_orda_diary;
 
-
+/* 알림 위에 보여주기 위한 것들*/
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
-import android.media.MediaPlayer;
-import android.os.Build;
-
 import androidx.core.app.NotificationCompat;
+/* 기본적인 것들 */
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 
 // 알림창 보여주기 위한 클래스
 public class NotificationHelper extends ContextWrapper {

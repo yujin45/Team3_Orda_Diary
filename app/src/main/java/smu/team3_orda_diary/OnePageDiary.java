@@ -1,7 +1,6 @@
 package smu.team3_orda_diary;
 
 import android.graphics.Color;
-import android.net.Uri;
 
 // 일기장 한장을 구성하는 객체 만듦
 public class OnePageDiary {

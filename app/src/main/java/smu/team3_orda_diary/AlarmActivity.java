@@ -1,40 +1,40 @@
 package smu.team3_orda_diary;
 
+// PendingIntent 사용을 위한 flag
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
-
+// DB 관리를 위해 가져옴
 import static smu.team3_orda_diary.MainActivity.mDBHelper;
-
 import androidx.appcompat.app.AppCompatActivity;
+/* 알람 관련 */
 import androidx.fragment.app.DialogFragment;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.hardware.camera2.CameraAccessException;
-import android.hardware.camera2.CameraCharacteristics;
-import android.hardware.camera2.CameraManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
+/* DB에서는 time을 string으로 저장하여 Date, Calendar 등 변환 필요 */
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+/* 플래시 관련 */
+import android.content.pm.PackageManager;
+import android.hardware.camera2.CameraAccessException;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
+// 기본적인 것
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
 
 public class AlarmActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener{
-
-
     private AlarmManager alarmManager;
     ImageButton makeButton, deleteButton;
     TextView mTextView;
@@ -46,10 +46,8 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
-        
         // 객체 생성
         mTextView =  findViewById(R.id.textView);
-
         makeButton = findViewById(R.id.makeButton);
         deleteButton = findViewById(R.id.deleteButton);
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
@@ -71,8 +69,8 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
         }else{
             // 처음 맞추는거면 아래에서 진행될 것임
         }
-        
-        
+
+
         // 알람 만드는 부분
         makeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,9 +113,10 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
             }
         }
         else {
-            // .. 플래쉬 지원하지 않음.
+            // 플래쉬 지원하지 않음.
         }
     }
+
     // 타임피커로 시간 설정하면 아래가 불러져서 시간이 설정됨
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         Calendar c = Calendar.getInstance();
@@ -127,7 +126,7 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
         updateTimeText(c);
         startAlarm(c);
         Log.d("onTimeSet 맞춰짐", "타임피커 설정시");
-                
+
     }
     // 알람을 몇시에 맞춰뒀는지 보여줌
     private void updateTimeText(Calendar c){
@@ -199,7 +198,7 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
             e.printStackTrace();
         }
     }
-
+    // 이후 깜빡임을 원할 때 사용 가능한 것
     public void sleep(int time){
         try{
             Thread.sleep(time);

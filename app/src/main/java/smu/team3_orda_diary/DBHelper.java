@@ -1,19 +1,16 @@
 package smu.team3_orda_diary;
 
+// DB 사용을 위한 것들
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DBHelper extends SQLiteOpenHelper
 {
     public static final int DB_VERSION = 1;
-    //public static final String DB_NAME = "Orda_Todo.db";
     public static final String DB_NAME = "Ordatest1.db";
 
     public DBHelper(@Nullable Context context) {
@@ -38,7 +35,6 @@ public class DBHelper extends SQLiteOpenHelper
 
         // 알람 관련
         db.execSQL("CREATE TABLE IF NOT EXISTS ALARM_TB (ALARM_ID INTEGER PRIMARY KEY AUTOINCREMENT,TIME TEXT NOT NULL); ");
-
 
     }
 
@@ -128,8 +124,6 @@ public class DBHelper extends SQLiteOpenHelper
     public ArrayList<OnePageDiary> getResult() {
         // 읽기가 가능하게 DB 열기
         SQLiteDatabase db = getReadableDatabase();
-        //String result = "";
-        String []result = new String[5];
         ArrayList<OnePageDiary> onePageDiaries = new ArrayList<>();
         // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용하여 테이블에 있는 모든 데이터 출력
         Cursor cursor = db.rawQuery("SELECT * FROM DIARY_TB", null);
@@ -138,9 +132,8 @@ public class DBHelper extends SQLiteOpenHelper
                     cursor.getString(1), cursor.getString(2),
                     cursor.getString(3), cursor.getString(4), cursor.getString(5));
             onePageDiaries.add(onePageDiary);
-
         }
-        cursor.close();//
+        cursor.close();
         return onePageDiaries;
     }
 

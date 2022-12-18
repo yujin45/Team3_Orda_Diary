@@ -1,19 +1,19 @@
 package smu.team3_orda_diary;
 
-
+// 리시버에서 인식하면 알람 울릴 때 flash도 켜지게 하기 위함
 import static smu.team3_orda_diary.AlarmActivity.flashLightOn;
-
+/* 알림을 주고 알람도 울리게 하기 위한 것들 */
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
+import androidx.core.app.NotificationCompat;
+/* 음악 나오게 하는 것 관련 */
+import android.media.MediaPlayer;
+import android.os.PowerManager;
+/* 기본적인 것들 */
+import android.widget.Toast;
 import android.content.Context;
 import android.content.Intent;
 
-
-import android.media.MediaPlayer;
-import android.os.PowerManager;
-import android.widget.Toast;
-
-import androidx.core.app.NotificationCompat;
 public class AlarmReceiver extends BroadcastReceiver {
     public static MediaPlayer mediaPlayer;
     private static PowerManager.WakeLock sCpuWakeLock;
@@ -42,7 +42,5 @@ public class AlarmReceiver extends BroadcastReceiver {
         // 알림창
         notificationHelper.getManager().notify(1,nb.build());
     }
-
-
 
 }
