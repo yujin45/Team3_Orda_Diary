@@ -13,7 +13,8 @@ import java.util.Date;
 public class DBHelper extends SQLiteOpenHelper
 {
     public static final int DB_VERSION = 1;
-    public static final String DB_NAME = "Orda_Todo.db";
+    //public static final String DB_NAME = "Orda_Todo.db";
+    public static final String DB_NAME = "Ordatest1.db";
 
     public DBHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -24,7 +25,20 @@ public class DBHelper extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db) {
         //데이터 베이스가 생성이 될 때 호출
         //데이터베이스 -> 테이블 -> 칼럼 -> 값
-        db.execSQL("CREATE TABLE IF NOT EXISTS TODOLIST_TB (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT NOT NULL,writeDate TEXT NOT NULL ) "); //테이블이 존재하지 않는 경우
+        db.execSQL("CREATE TABLE IF NOT EXISTS TODOLIST_TB (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT NOT NULL,writeDate TEXT NOT NULL ) ");
+
+        // 일기 한장에 포함되는 내용들 : 구분 번호, 제목, 날짜, 기분, 사진(혹은 그림), 내용
+        db.execSQL("CREATE TABLE IF NOT EXISTS DIARY_TB" +
+                "(DIARY_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "TITLE TEXT NOT NULL, " +
+                "DATE TEXT NOT NULL, " +
+                "FEEL TEXT NOT NULL," +
+                "PICTURE_URI TEXT ," +
+                "TEXT TEXT NOT NULL);");
+
+        // 알람 관련
+        db.execSQL("CREATE TABLE IF NOT EXISTS ALARM_TB (ALARM_ID INTEGER PRIMARY KEY AUTOINCREMENT,TIME TEXT NOT NULL); ");
+
 
     }
 
@@ -65,7 +79,6 @@ public class DBHelper extends SQLiteOpenHelper
         return todoItems;
 
     }
-    // 이거 함수 이름 소문자 시작으로 바꿔주세요
 
     //INSERT 문 (할일 목록을 DB에 넣는다)
     public void insertTodo(String _title, String _content, String _writeDate){
@@ -84,4 +97,79 @@ public class DBHelper extends SQLiteOpenHelper
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE FROM TODOLIST_TB WHERE writeDate = '"+_beforeDate+"'");
     }
+
+    //////// 다이어리 관련
+    public void insert( String title, String date, String feel, String picture_uri, String text ) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("INSERT INTO DIARY_TB (TITLE, DATE, FEEL,PICTURE_URI,TEXT) VALUES ('"+title+"','"+ date +"','"+ feel +"','"+ picture_uri +"','"+ text +"');");
+
+        //db.execSQL("INSERT INTO TODOLIST_TB VALUES( '" + title + "', '" + date + "', '"
+        //       + feel + "', '" + picture_uri + "','" + text+"');");
+        //db.close();
+    }
+
+    public void update(int diary_id, String title, String date, String feel, String picture_uri  ,String text ) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE DIARY_TB SET TITLE = " + title
+                + ", DATE = '" + date + "'"
+                + ", FEEL = '" + feel +"'"
+                + ", PICTURE_URI = '" + picture_uri +"'"
+                + ", TEXT =  '" + text+"'"
+                + " WHERE DIARY_ID = '" + diary_id + "'");
+        // db.close();
+    }
+
+    public void delete(String diary_id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE DIARY_TB WHERE DIARY_ID = '" + diary_id + "'");
+        //db.close();
+    }
+
+    public ArrayList<OnePageDiary> getResult() {
+        // 읽기가 가능하게 DB 열기
+        SQLiteDatabase db = getReadableDatabase();
+        //String result = "";
+        String []result = new String[5];
+        ArrayList<OnePageDiary> onePageDiaries = new ArrayList<>();
+        // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용하여 테이블에 있는 모든 데이터 출력
+        Cursor cursor = db.rawQuery("SELECT * FROM DIARY_TB", null);
+        while (cursor.moveToNext()) {
+            OnePageDiary onePageDiary = new OnePageDiary(cursor.getInt(0),
+                    cursor.getString(1), cursor.getString(2),
+                    cursor.getString(3), cursor.getString(4), cursor.getString(5));
+            onePageDiaries.add(onePageDiary);
+
+        }
+        cursor.close();//
+        return onePageDiaries;
+    }
+
+    // 알람을 다시 설정
+    public void updateAlarm(String time){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE ALARM_TB SET TIME='"+time+"' ");
+    }
+
+    //INSERT 문 (할일 목록을 DB에 넣는다)
+    public void insertAlarm(String time) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("INSERT INTO ALARM_TB (TIME) VALUES ('" + time + "');");
+    }
+        public String getAlarmTime(){
+        SQLiteDatabase db = getReadableDatabase();
+        String time = null;
+        Cursor cursor = db.rawQuery("SELECT * FROM ALARM_TB", null);
+        while (cursor.moveToNext()) {
+            time = cursor.getString(1);
+        }
+        cursor.close();
+        return time;
+    }
+
+    //DELETE 문 (할일 목록을 제거한다.)
+    public void deleteAlarm( String time){
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM ALARM_TB WHERE TIME = '"+time+"'");
+    }
+
 }

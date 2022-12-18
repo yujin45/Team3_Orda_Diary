@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
     @Override
     public TodoCustomAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_todo_list,parent,false);
+        //View holder = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_todo_list_check,parent,false);
         return new ViewHolder(holder);
     }
 
@@ -56,13 +58,22 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
         private TextView tv_title;
         private TextView tv_content;
         private TextView tv_writeDate;
+        //private CheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_title = itemView.findViewById(R.id.tv_title);
             tv_content = itemView.findViewById(R.id.tv_content);
             tv_writeDate = itemView.findViewById(R.id.tv_writeDate);
+            //checkBox = itemView.findViewById(R.id.checkBox);
+            /*
+            checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                }
+            });
+            */
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

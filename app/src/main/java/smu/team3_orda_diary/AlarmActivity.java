@@ -2,6 +2,8 @@ package smu.team3_orda_diary;
 
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
 
+import static smu.team3_orda_diary.MainActivity.mDBHelper;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -16,6 +18,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,7 +27,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AlarmActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener{
 
@@ -35,16 +41,38 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
     private static CameraManager mCameraManager;
     private static boolean mFlashOn = false;
     public static String mCameraId;
+    Calendar alarmC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
+        
         // 객체 생성
         mTextView =  findViewById(R.id.textView);
 
         makeButton = findViewById(R.id.makeButton);
         deleteButton = findViewById(R.id.deleteButton);
         alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        
+        // 알람 이미 있는 경우
+        String alarmTime= mDBHelper.getAlarmTime();
+        Log.d("alarmTime", alarmTime);
+        if (alarmTime!= null){
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                Date date = format.parse(alarmTime);
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                updateTimeText(cal);
+                startAlarm(cal);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }else{
+            // 처음 맞추는거면 아래에서 진행될 것임
+        }
+        
+        
         // 알람 만드는 부분
         makeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,15 +126,21 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
         c.set(Calendar.SECOND, 0);
         updateTimeText(c);
         startAlarm(c);
+        Log.d("onTimeSet 맞춰짐", "타임피커 설정시");
+                
     }
     // 알람을 몇시에 맞춰뒀는지 보여줌
     private void updateTimeText(Calendar c){
+        Log.d("updateTimeText", "알람 업데이트");
         String timeText = "알람 맞춰짐 \n";
         timeText += DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
         mTextView.setText(timeText);
     }
     // 알람 진행하기
     private void startAlarm(Calendar c){
+        Log.d("startAlarm", "알람 서비스에 연결 실행 부분");
+
+
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent;
@@ -119,11 +153,27 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
         if(c.before((Calendar.getInstance()))){
             c.add(Calendar.DATE, 1);
         }
+        // db접근
+        Date date = new Date(c.getTimeInMillis());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String dateStr = format.format(date);
+        String alarmTime= mDBHelper.getAlarmTime();
+        if (alarmTime!= null){
+            mDBHelper.updateAlarm(dateStr);
+            Log.d("업데이트", "이전 설정 있어서 업데이트");
+        }else{
+            mDBHelper.insertAlarm(dateStr);
+            Log.d("삽입", "이전 설정 없어서 삽입");
+        }
+
         // 아까 타임피커로 설정한 시간으로 알람을 설정
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }
     // 알람 설정해뒀던 것 취소하는 부분
     private void cancelAlarm(){
+        String alarmTime= mDBHelper.getAlarmTime();
+        mDBHelper.deleteAlarm(alarmTime);
+        Log.d("cancelAlarm", "알람 취소하는 부분");
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, FLAG_IMMUTABLE);

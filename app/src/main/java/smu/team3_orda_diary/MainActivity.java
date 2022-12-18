@@ -19,13 +19,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Button scheduleBtn, accountBookBtn, diaryBtn, alarmBtn;
-
-
+    public static DBHelper mDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mDBHelper = new DBHelper(this);
 
         scheduleBtn = findViewById(R.id.button1);
         accountBookBtn = findViewById(R.id.button2);

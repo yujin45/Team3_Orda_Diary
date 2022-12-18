@@ -1,5 +1,7 @@
 package smu.team3_orda_diary;
 
+import static smu.team3_orda_diary.MainActivity.mDBHelper;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +30,7 @@ public class TodolistActivity extends AppCompatActivity {
     private RecyclerView mRv_todo;
     private FloatingActionButton mBtn_Write;
     private ArrayList<TodoItem> mTodoItems;
-    private DBHelper mDBHelper;
+    //private DBHelper mDBHelper;
     private TodoCustomAdapter mAdapter;
     private String currentTime = "";
 
@@ -42,7 +44,7 @@ public class TodolistActivity extends AppCompatActivity {
 
         mRv_todo= findViewById(R.id.rv_todo);
         mBtn_Write= findViewById(R.id.todo_btn_write);
-        mDBHelper = new DBHelper(this);
+       // mDBHelper = new DBHelper(this);
 
 
         /*
@@ -87,7 +89,7 @@ public class TodolistActivity extends AppCompatActivity {
 
     }
     private void setInit(){
-        mDBHelper = new DBHelper(this);
+        //mDBHelper = new DBHelper(this);
         mRv_todo = findViewById(R.id.rv_todo);
         mBtn_Write = findViewById(R.id.todo_btn_write);
         mTodoItems = new ArrayList<>();

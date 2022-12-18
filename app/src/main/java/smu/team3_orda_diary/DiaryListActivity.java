@@ -1,5 +1,7 @@
 package smu.team3_orda_diary;
 
+import static smu.team3_orda_diary.MainActivity.mDBHelper;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -18,15 +20,16 @@ public class DiaryListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     public static DiaryRecyclerViewAdapter adapter;
     public static ArrayList<OnePageDiary> diaryList;
-    public static DiaryDBHelper diaryDBHelper;
+    //public static DiaryDBHelper diaryDBHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary_list);
 
-        diaryDBHelper = new DiaryDBHelper(this);
-        diaryList = diaryDBHelper.getResult();
+        //diaryDBHelper = new DiaryDBHelper(this);
+        //diaryList = diaryDBHelper.getResult();
+        diaryList = mDBHelper.getResult();
 
         recyclerView = findViewById(R.id.recyclerView);
         writeDiaryButton = findViewById(R.id.writeDiaryButton);

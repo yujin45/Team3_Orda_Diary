@@ -1,8 +1,8 @@
 package smu.team3_orda_diary;
 
 import static smu.team3_orda_diary.DiaryListActivity.adapter;
-import static smu.team3_orda_diary.DiaryListActivity.diaryDBHelper;
 import static smu.team3_orda_diary.DiaryListActivity.diaryList;
+import static smu.team3_orda_diary.MainActivity.mDBHelper;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -180,10 +180,10 @@ public class DiaryWritingPageActivity extends AppCompatActivity {
                 if (imageUri==null){
                     Toast.makeText(getApplicationContext(), "이미지를 삽입해주세요", Toast.LENGTH_SHORT).show();
                 }else{
-                    diaryDBHelper.insert( titleEditText.getText().toString(), dateEditText.getText().toString(),
+                    mDBHelper.insert( titleEditText.getText().toString(), dateEditText.getText().toString(),
                             feelButton.getText().toString(), imageUri.toString(), editText.getText().toString());
-                    //ArrayList<OnePageDiary> onePageDiaries = diaryDBHelper.getResult();
-                    diaryList = diaryDBHelper.getResult();
+
+                    diaryList = mDBHelper.getResult();
                     for(int i =0; i<diaryList.size(); i++){
                         Log.d("-------\n제목 :" ,diaryList.get(i).getTitle());
                         Log.d("날짜 :" , diaryList.get(i).getDate());
