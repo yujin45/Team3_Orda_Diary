@@ -5,39 +5,65 @@
     android:id="@+id/layout_map"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapMemoActivity"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".MapMemoActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#7C9BE2"
+        android:fontFamily="@font/nanumleo_extrabold"
+        android:gravity="center"
+        android:text="지도 메모장"
+        android:textColor="#FFFFFF"
+        android:textSize="28sp" />
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="2sp"
+        android:paddingBottom="2sp">
 
         <EditText
             android:id="@+id/map_et_place"
-            android:layout_width="300dp"
+            android:layout_width="200sp"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="검색할 장소를 입력해주세요" />
+            android:fontFamily="@font/nanumleo_regular"
+            android:hint="검색할 장소를 입력해주세요"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/map_btn_search"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="검색" />
+            android:background="#7C9BE2"
+            android:fontFamily="@font/nanumleo_light"
+            android:text="검색"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            tools:layout_marginRight="5dp" />
 
         <Button
             android:id="@+id/map_btn_mark"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="장소 메모 추가" />
+            android:background="#EA85FB"
+            android:fontFamily="@font/nanumleo_light"
+            android:text="메모"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/map"
-        tools:context=".MapsActivity"
-        android:name="com.google.android.gms.maps.SupportMapFragment" />
+        tools:context=".MapsActivity" />
 
 </LinearLayout>
