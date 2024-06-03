@@ -17,7 +17,7 @@
 
 | <img src="https://avatars.githubusercontent.com/u/113690378?v=4" width="140">   | <img src="https://avatars.githubusercontent.com/u/114843604?v=4" width="140"> | 
 | :--------: | :--------: |
-|   [정유진](https://github.com/yujin45)   |   [박근영](https://github.com/okchangheeok)    |  
+|   [정유진](https://github.com/yujin45)   |   [박근영](https://github.com/Park-kxng)    |  
 | 팀장, 안드로이드 개발 | 안드로이드 개발 | 
 
 <br></br>
