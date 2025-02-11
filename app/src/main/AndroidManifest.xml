@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- 알람 관련 퍼미션 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-feature android:name="android.hardware.camera.flash" />
-    <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-    <!-- 일기장 관련 퍼미션 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-feature
+        android:name="android.hardware.camera.flash"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <!-- Android 33(API 33) 이상에서는 새로운 미디어 권한 필요 -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-
-    <!-- Android 13(API 33) 이상에서 알림 권한 추가 -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-
-    <!-- Android 14(API 34) 이상에서 Foreground Service 센서 접근 권한 추가 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SENSORS" />
-
-    <!-- GPS 및 위치 권한 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -100,9 +93,7 @@
                 android:value="" />
         </activity>
 
-        <receiver
-            android:name=".AlarmReceiver"
-            android:exported="true" />
+        <receiver android:name=".AlarmReceiver" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
