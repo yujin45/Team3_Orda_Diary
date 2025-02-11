@@ -1,22 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <!-- 알람 관련 퍼미션 : 알람 스케줄 및 플래시-->
-    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- 알람 관련 퍼미션 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-feature android:name="android.hardware.camera.flash" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-    <!-- 일기장 관련 퍼미션 : 카메라 기능, 갤러리 접근, STT-->
+    <!-- 일기장 관련 퍼미션 -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!-- 인공위성 GPS 연동 -->
+    <!-- Android 33(API 33) 이상에서는 새로운 미디어 권한 필요 -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
+    <!-- Android 13(API 33) 이상에서 알림 권한 추가 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
+    <!-- Android 14(API 34) 이상에서 Foreground Service 센서 접근 권한 추가 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SENSORS" />
+
+    <!-- GPS 및 위치 권한 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -87,7 +100,9 @@
                 android:value="" />
         </activity>
 
-        <receiver android:name=".AlarmReceiver" />
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -101,7 +116,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyC-3pHd23lekLtJO0GWFJzPrHC-5FR1GYY" />
+            android:value="${MAPS_API_KEY}" />
     </application>
 
 </manifest>
