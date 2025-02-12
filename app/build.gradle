@@ -2,18 +2,24 @@ plugins {
     id 'com.android.application'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+def MAPS_API_KEY = localProperties['MAPS_API_KEY']
+
 android {
     namespace 'smu.team3_orda_diary'
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "smu.team3_orda_diary"
         minSdk 26
-        targetSdk 32
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [MAPS_API_KEY: MAPS_API_KEY]
     }
 
     buildTypes {
