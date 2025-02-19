@@ -1,89 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#FFFFFF"
-        app:srcCompat="@drawable/orda_icon" />
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/nanumleo_extrabold"
-        android:gravity="center"
-        android:text="오르다"
-        android:textColor="#5F7DE7"
-        android:textSize="48sp" />
-
-    <TextView
-        android:id="@+id/textView5"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/nanumleo_bold"
-        android:gravity="center"
-        android:text="당신만의 만능 다이어리"
-        android:textColor="#7C9BE2"
-        android:textSize="24sp" />
+        android:background="@color/main"
+        app:menu="@menu/bottom_nav_menu"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="170dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/orda_ripple_borderless"
-        android:elevation="20dp"
-        android:fontFamily="@font/nanumleo_regular"
-        android:text="일정관리"
-        android:textColor="#FFFFFF"
-        android:textSize="26sp" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="170dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/orda_ripple_borderless"
-        android:elevation="20dp"
-        android:fontFamily="@font/nanumleo_regular"
-        android:text="지도 메모장"
-        android:textColor="#FFFFFF"
-        android:textSize="26sp" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="170dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/orda_ripple_borderless"
-        android:elevation="20dp"
-        android:fontFamily="@font/nanumleo_regular"
-        android:text="일기장"
-        android:textColor="#FFFFFF"
-        android:textSize="26sp" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="170dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="20dp"
-
-        android:background="@drawable/orda_ripple_borderless"
-        android:elevation="20dp"
-        android:fontFamily="@font/nanumleo_regular"
-        android:text="알람설정"
-        android:textColor="#FFFFFF"
-        android:textSize="26sp" />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

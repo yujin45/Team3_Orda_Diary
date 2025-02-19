@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="smu.team3_orda_diary.HomeFragment"
+        android:label="Home" />
+
+    <fragment
+        android:id="@+id/todolistFragment"
+        android:name="smu.team3_orda_diary.ToDoListFragment"
+        android:label="Todolist" />
+
+    <fragment
+        android:id="@+id/mapMemoFragment"
+        android:name="smu.team3_orda_diary.MapMemoFragment"
+        android:label="Map Memo" />
+
+    <fragment
+        android:id="@+id/diaryListFragment"
+        android:name="smu.team3_orda_diary.DiaryListFragment"
+        android:label="Diary List" />
+
+    <fragment
+        android:id="@+id/alarmFragment"
+        android:name="smu.team3_orda_diary.AlarmFragment"
+        android:label="Alarm" />
+
+</navigation>

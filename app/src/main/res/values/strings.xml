@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Team3_Orda_Diary</string>
+
+    <!-- Home Fragment Strings -->
+    <string name="home_fragment_title">오르다</string>
+    <string name="home_fragment_desc">당신만의 만능 다이어리</string>
+
+
+    <!-- Bottom Navigation Menu Strings -->
+    <string name="bottom_nav_menu_schedule">일정관리</string>
+    <string name="bottom_nav_menu_map">지도 메모</string>
+    <string name="bottom_nav_menu_home">홈</string>
+    <string name="bottom_nav_menu_diary">일기장</string>
+    <string name="bottom_nav_menu_alarm">알람</string>
+
 </resources>

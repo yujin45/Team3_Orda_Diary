@@ -1,73 +1,46 @@
 package smu.team3_orda_diary;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import smu.team3_orda_diary.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
-    Button scheduleBtn, accountBookBtn, diaryBtn, alarmBtn;
+    private ActivityMainBinding binding;
+    private NavController navController;
     public static DBHelper mDBHelper;
     private static final int PERMISSION_REQUEST_CODE = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         mDBHelper = new DBHelper(this);
-
-        scheduleBtn = findViewById(R.id.button1);
-        accountBookBtn = findViewById(R.id.button2);
-        diaryBtn = findViewById(R.id.button3);
-        alarmBtn = findViewById(R.id.button4);
-
-        // 필요한 권한 요청
         requestAppPermissions();
 
-        // 스케줄 관리 버튼
-        scheduleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TodolistActivity.class);
-                startActivity(intent);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragmentContainer);
+        if (navHostFragment != null) {
+            navController = navHostFragment.getNavController();
+        }
 
-            }
-        });
-        // 가계부 버튼
-        accountBookBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MapMemoActivity.class);
-                startActivity(intent);
-            }
-        });
-        // 일기장 버튼
-        diaryBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), DiaryListActivity.class);
-                startActivity(intent);
-            }
-        });
-        // 알람 버튼
-        alarmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AlarmActivity.class);
-                startActivity(intent);
-            }
-        });
+        NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
     }
 
     private void requestAppPermissions() {
