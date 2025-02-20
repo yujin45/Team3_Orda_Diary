@@ -5,7 +5,6 @@
     <string name="home_fragment_title">오르다</string>
     <string name="home_fragment_desc">당신만의 만능 다이어리</string>
 
-
     <!-- Bottom Navigation Menu Strings -->
     <string name="bottom_nav_menu_schedule">일정관리</string>
     <string name="bottom_nav_menu_map">지도 메모</string>
@@ -13,4 +12,30 @@
     <string name="bottom_nav_menu_diary">일기장</string>
     <string name="bottom_nav_menu_alarm">알람</string>
 
+    <!-- ToDoList Fragment Strings -->
+    <string name="todo_list_title">일정 관리</string>
+    <string name="todo_today_placeholder">선택한 날짜</string>
+    <string name="todo_today_contentDescription_floating_btn">일정을 생성하는 버튼입니다.</string>
+    <string name="todo_edit_title">할 일 수정</string>
+    <string name="todo_edit_desc">할 일을 입력하세요.</string>
+    <string name="todo_dialog_ok">확인</string>
+    <string name="todo_dialog_cancel">취소</string>
+    <string name="todo_options_edit">수정하기</string>
+    <string name="todo_options_delete">삭제하기</string>
+    <string name="todo_dialog_title">원하는 작업을 선택해주세요</string>
+
+    <!-- ToDoListToast Messages -->
+    <string name="toast_todo_added">목록이 추가되었습니다.</string>
+    <string name="toast_todo_updated">목록이 수정되었습니다.</string>
+    <string name="toast_todo_deleted">목록이 삭제되었습니다.</string>
+
+    <!-- ToDoList Item Strings -->
+    <string name="todo_item_title">제목</string>
+    <string name="todo_item_content">내용</string>
+    <string name="todo_item_date">작성날짜</string>
+    <!-- ToDoList Dialog Edit Strings -->
+    <string name="todo_edit_dialog_title">할 일 추가</string>
+    <string name="todo_edit_dialog_label_title">할 일 제목</string>
+    <string name="todo_edit_dialog_label_content">할 일 내용</string>
+    <string name="todo_edit_dialog_btn_ok">확인</string>
 </resources>
