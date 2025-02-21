@@ -1,7 +1,7 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.diary;
 
-import static smu.team3_orda_diary.DiaryListActivity.adapter;
-import static smu.team3_orda_diary.DiaryListActivity.diaryList;
+import static smu.team3_orda_diary.ui.diary.DiaryListActivity.adapter;
+import static smu.team3_orda_diary.ui.diary.DiaryListActivity.diaryList;
 import static smu.team3_orda_diary.MainActivity.mDBHelper;
 
 import android.app.AlertDialog;
@@ -36,6 +36,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import smu.team3_orda_diary.R;
 
 
 public class DiaryWritingPageActivity extends AppCompatActivity {

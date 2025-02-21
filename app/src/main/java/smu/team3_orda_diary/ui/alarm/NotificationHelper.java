@@ -1,4 +1,4 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.alarm;
 
 /* 알림 위에 보여주기 위한 것들*/
 import android.app.Notification;
@@ -10,6 +10,8 @@ import androidx.core.app.NotificationCompat;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+
+import smu.team3_orda_diary.R;
 
 // 알림창 보여주기 위한 클래스
 public class NotificationHelper extends ContextWrapper {

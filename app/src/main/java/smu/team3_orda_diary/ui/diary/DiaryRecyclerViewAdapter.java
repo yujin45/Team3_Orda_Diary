@@ -1,4 +1,4 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.diary;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -16,6 +16,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 // 일기를 담아둘 리스트
 import java.util.ArrayList;
+
+import smu.team3_orda_diary.model.OnePageDiary;
+import smu.team3_orda_diary.R;
 
 // 리사이클러 뷰를 사용하기 위한 어댑터: 이전 예약 과제에서 만든 것 재활용
 public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter {

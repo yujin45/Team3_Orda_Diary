@@ -6,27 +6,27 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="smu.team3_orda_diary.HomeFragment"
+        android:name="smu.team3_orda_diary.ui.home.HomeFragment"
         android:label="Home" />
 
     <fragment
         android:id="@+id/todolistFragment"
-        android:name="smu.team3_orda_diary.ToDoListFragment"
+        android:name="smu.team3_orda_diary.ui.todolist.ToDoListFragment"
         android:label="Todolist" />
 
     <fragment
         android:id="@+id/mapMemoFragment"
-        android:name="smu.team3_orda_diary.MapMemoFragment"
+        android:name="smu.team3_orda_diary.ui.mapmemo.MapMemoFragment"
         android:label="Map Memo" />
 
     <fragment
         android:id="@+id/diaryListFragment"
-        android:name="smu.team3_orda_diary.DiaryListFragment"
+        android:name="smu.team3_orda_diary.ui.diary.DiaryListFragment"
         android:label="Diary List" />
 
     <fragment
         android:id="@+id/alarmFragment"
-        android:name="smu.team3_orda_diary.AlarmFragment"
+        android:name="smu.team3_orda_diary.ui.alarm.AlarmFragment"
         android:label="Alarm" />
 
 </navigation>

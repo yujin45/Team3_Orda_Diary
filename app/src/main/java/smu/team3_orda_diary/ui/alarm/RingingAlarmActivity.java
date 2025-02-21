@@ -1,8 +1,8 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.alarm;
 
 /* 필요한 것 */
-import static smu.team3_orda_diary.AlarmActivity.flashLightOff;
-import static smu.team3_orda_diary.AlarmReceiver.mediaPlayer;
+import static smu.team3_orda_diary.ui.alarm.AlarmActivity.flashLightOff;
+import static smu.team3_orda_diary.ui.alarm.AlarmReceiver.mediaPlayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 /* 가속도 센서 위한 것들 */
@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import smu.team3_orda_diary.R;
 
 
 // 알림 울리는 화면 - 가속도 센서를 이용하여 흔들림을 감지해 일정 수치 이상이면 노래도 끄고 화면도 종료

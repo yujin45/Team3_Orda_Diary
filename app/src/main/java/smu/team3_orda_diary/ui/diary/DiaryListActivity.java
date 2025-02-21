@@ -1,4 +1,4 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.diary;
 
 import androidx.appcompat.app.AppCompatActivity;
 // DB관리를 위해 Main에서 생성한 mDBHelper 가져옴
@@ -14,6 +14,10 @@ import android.view.View;
 import android.widget.Button;
 // 일기장들을 넣어둘 리스트를 만들기 위한 것
 import java.util.ArrayList;
+
+import smu.team3_orda_diary.MainActivity;
+import smu.team3_orda_diary.model.OnePageDiary;
+import smu.team3_orda_diary.R;
 
 public class DiaryListActivity extends AppCompatActivity {
     Button writeDiaryButton;

@@ -1,4 +1,4 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.todolist;
 
 // 필요한 것
 import static smu.team3_orda_diary.MainActivity.mDBHelper;
@@ -20,6 +20,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+
+import smu.team3_orda_diary.R;
+import smu.team3_orda_diary.model.TodoItem;
 
 
 public class TodolistActivity extends AppCompatActivity {

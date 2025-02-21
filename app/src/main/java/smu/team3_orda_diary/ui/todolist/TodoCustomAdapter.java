@@ -1,4 +1,4 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.todolist;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,8 +15,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import smu.team3_orda_diary.database.DBHelper;
+import smu.team3_orda_diary.R;
 import smu.team3_orda_diary.databinding.DialogEditTodoBinding;
 import smu.team3_orda_diary.databinding.ItemTodoListBinding;
+import smu.team3_orda_diary.model.TodoItem;
 
 public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.ViewHolder> {
     private final Context mContext;

@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.ArrayList;
 import java.util.List;
 
+import smu.team3_orda_diary.database.DBHelper;
 import smu.team3_orda_diary.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.database;
 
 // DB 사용을 위한 것들
 import android.content.Context;
@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 import java.util.ArrayList;
+
+import smu.team3_orda_diary.model.OnePageDiary;
+import smu.team3_orda_diary.model.TodoItem;
 
 public class DBHelper extends SQLiteOpenHelper
 {

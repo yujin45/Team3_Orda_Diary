@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".DiarySelectedActivity">
+    tools:context=".ui.diary.DiarySelectedActivity">
 
     <ImageView
         android:id="@+id/imageView1"

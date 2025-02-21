@@ -1,4 +1,4 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.alarm;
 
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static smu.team3_orda_diary.MainActivity.mDBHelper;
@@ -25,6 +25,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import smu.team3_orda_diary.R;
 
 public class AlarmActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
     private AlarmManager alarmManager;
