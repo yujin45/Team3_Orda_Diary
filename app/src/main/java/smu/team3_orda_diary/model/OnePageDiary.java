@@ -2,8 +2,10 @@ package smu.team3_orda_diary.model;
 
 import android.graphics.Color;
 
+import java.io.Serializable;
+
 // 일기장 한장을 구성하는 객체 만듦
-public class OnePageDiary {
+public class OnePageDiary implements Serializable {
     int diary_id; //구분용
     String title;           // 제목
     String date;            // 날짜
@@ -12,13 +14,13 @@ public class OnePageDiary {
     String text;
     Color backgroundColor;  // 배경지 색
 
-    public OnePageDiary(int diary_id, String title, String date, String feel, String picture_uri, String text){
+    public OnePageDiary(int diary_id, String title, String date, String feel, String picture_uri, String text) {
         this.diary_id = diary_id;
         this.title = title;
         this.date = date;
         this.feel = feel;
-        this.picture_uri  = picture_uri;
-        this.text =text;
+        this.picture_uri = picture_uri;
+        this.text = text;
 
     }
 

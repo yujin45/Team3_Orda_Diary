@@ -12,4 +12,6 @@
     <color name="calendar_background">#BFD1FB</color>
     <color name="calendar_bottom">#56575D</color>
     <color name="edit_text_hint">#91AAFD</color>
+    <color name="light_blue_background">#7A9CCEFF</color>
+    <color name="dark_blue_background">#E76892FF</color>
 </resources>

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -22,7 +21,32 @@
     <fragment
         android:id="@+id/diaryListFragment"
         android:name="smu.team3_orda_diary.ui.diary.DiaryListFragment"
-        android:label="Diary List" />
+        android:label="Diary List">
+        <action
+            android:id="@+id/action_diaryListFragment_to_diaryWritingFragment"
+            app:destination="@id/diaryWritingFragment" />
+        <action
+            android:id="@+id/action_diaryListFragment_to_diarySelectedFragment"
+            app:destination="@id/diarySelectedFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/diaryWritingFragment"
+        android:name="smu.team3_orda_diary.ui.diary.DiaryWritingFragment"
+        android:label="Diary Writing">
+        <action
+            android:id="@+id/action_diaryWritingFragment_to_diaryListFragment"
+            app:destination="@id/diaryListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/diarySelectedFragment"
+        android:name="smu.team3_orda_diary.ui.diary.DiarySelectedFragment"
+        android:label="Diary Selected">
+        <argument
+            android:name="selectedDiary"
+            app:argType="smu.team3_orda_diary.model.OnePageDiary" />
+    </fragment>
 
     <fragment
         android:id="@+id/alarmFragment"

@@ -1,66 +1,64 @@
 package smu.team3_orda_diary.ui.diary;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import smu.team3_orda_diary.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DiaryListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+
+import smu.team3_orda_diary.MainActivity;
+import smu.team3_orda_diary.R;
+import smu.team3_orda_diary.databinding.FragmentDiaryListBinding;
+import smu.team3_orda_diary.model.OnePageDiary;
+
 public class DiaryListFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private FragmentDiaryListBinding binding;
+    private DiaryRecyclerViewAdapter adapter;
+    private ArrayList<OnePageDiary> diaryList;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public DiaryListFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DiaryListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DiaryListFragment newInstance(String param1, String param2) {
-        DiaryListFragment fragment = new DiaryListFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentDiaryListBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        try {
+            diaryList = MainActivity.mDBHelper.getResult();
+            if (diaryList == null) {
+                diaryList = new ArrayList<>();
+            }
+        } catch (Exception e) {
+            Log.e("DiaryListFragment", "DB 가져오는 중 오류 발생", e);
+            diaryList = new ArrayList<>();
         }
+
+        adapter = new DiaryRecyclerViewAdapter(requireContext(), diaryList);
+        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
+        binding.writeDiaryButton.setOnClickListener(v -> {
+            Navigation.findNavController(v).navigate(R.id.action_diaryListFragment_to_diaryWritingFragment);
+        });
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_diary_list, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding.recyclerView.setAdapter(null);
+        binding = null;
     }
 }
