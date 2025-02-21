@@ -4,55 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/ringing_alarm"
     tools:context=".ui.alarm.RingingAlarmActivity">
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="445dp"
-        android:layout_height="787dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ringing_alarm" />
 
     <TextView
         android:id="@+id/timeTextView"
-        android:layout_width="289dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="44dp"
-        android:layout_marginBottom="613dp"
-        android:gravity="center"
-        android:text="시간"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanumleo_extrabold"
+        android:text="@string/ringing_alarm_activity_time"
         android:textColor="@color/white"
-        android:textSize="15pt"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.1" />
 
     <TextView
         android:id="@+id/textViewNowSpeed"
-        android:layout_width="275dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="602dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginBottom="88dp"
-        android:text="현재 Speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ringing_activity_speed"
         android:textColor="@color/black"
-        android:textSize="12pt"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.722"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.87" />
-
+        app:layout_constraintVertical_bias="0.86" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

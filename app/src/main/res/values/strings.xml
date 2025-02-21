@@ -140,4 +140,35 @@
     <string name="diarywritingfragment_done">일기가 저장되었습니다.</string>
     <string name="stt_start_notice">지금부터 음성으로 기록합니다.</string>
 
+    <!-- Alarm Setting -->
+    <string name="alarm_prompt">알람을 맞춰주세요</string>
+    <string name="alarm_set">알람 맞춰짐</string>
+    <string name="alarm_canceled">알람 취소됨</string>
+    <string name="alarm_set_time">설정된 알람 시간: %1$s</string>
+    <string name="alarm_set_toast">알람이 설정되었습니다.</string>
+    <string name="alarm_cancel_toast">알람이 취소되었습니다.</string>
+    <string name="set_alarm">알람 설정</string>
+    <string name="cancel_alarm">알람 취소</string>
+    <string name="flash_on">플래시 ON</string>
+    <string name="flash_off">플래시 OFF</string>
+    <string name="flash_error">플래시를 사용할 수 없습니다.</string>
+    <string name="alarm_db_error">알람 정보를 가져오는 중 오류 발생</string>
+    <string name="alarm_permission_error">알람 설정에 필요한 권한이 없습니다.</string>
+    <string name="alarm_update_error">알람 업데이트 중 오류가 발생했습니다.</string>
+    <string name="set_alarm_button_desc">알람 설정 버튼</string>
+    <string name="cancel_alarm_button_desc">알람 취소 버튼</string>
+    <string name="alarm_scheduled">알람이 설정되었습니다</string>
+    <!-- Alarm Ringing-->
+    <string name="alarm_dismiss_message">알람을 꺼주세요!!</string>
+    <string name="shake_complete_message">흔들기 완료!</string>
+    <string name="alarm_playing">알람 실행 중</string>
+    <string name="alarm_time_am">AM %1$d시 %2$d분 %3$d초</string>
+    <string name="alarm_time_pm">PM %1$d시 %2$d분 %3$d초</string>
+    <string name="alarm_time_midnight">AM 0시 %1$d분 %2$d초</string>
+    <!-- Alarm Notification-->
+    <string name="alarm_toast_message">알람~!!</string>
+    <string name="alarm_notification_title">알람</string>
+    <string name="alarm_notification_message">일어나세요!!!</string>
+    <string name="ringing_alarm_activity_time">시간</string>
+    <string name="ringing_activity_speed">현재 Speed</string>
 </resources>
