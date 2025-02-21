@@ -34,37 +34,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Team3_Orda_Diary"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.mapmemo.MapMemoActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.diary.DiarySelectedActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.todolist.TodolistActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.diary.DiaryWritingPageActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".ui.diary.DiaryListActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".ui.alarm.RingingAlarmActivity"
             android:exported="false">
@@ -72,13 +42,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".ui.alarm.AlarmActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

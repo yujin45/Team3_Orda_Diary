@@ -1,8 +1,8 @@
 package smu.team3_orda_diary.ui.diary;
 
 import static smu.team3_orda_diary.MainActivity.mDBHelper;
-import static smu.team3_orda_diary.ui.diary.DiaryListActivity.adapter;
-import static smu.team3_orda_diary.ui.diary.DiaryListActivity.diaryList;
+import static smu.team3_orda_diary.ui.diary.DiaryListFragment.adapter;
+import static smu.team3_orda_diary.ui.diary.DiaryListFragment.diaryList;
 
 import android.Manifest;
 import android.app.AlertDialog;

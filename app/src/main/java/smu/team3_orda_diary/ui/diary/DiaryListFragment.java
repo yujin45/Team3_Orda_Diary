@@ -22,8 +22,8 @@ import smu.team3_orda_diary.model.OnePageDiary;
 public class DiaryListFragment extends Fragment {
 
     private FragmentDiaryListBinding binding;
-    private DiaryRecyclerViewAdapter adapter;
-    private ArrayList<OnePageDiary> diaryList;
+    public static DiaryRecyclerViewAdapter adapter;
+    public static ArrayList<OnePageDiary> diaryList;
 
     @Nullable
     @Override

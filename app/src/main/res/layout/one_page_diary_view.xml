@@ -5,8 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/one_page_background"
-    tools:context=".ui.diary.DiaryWritingPageActivity">
+    android:background="@drawable/one_page_background">
 
     <ImageView
         android:id="@+id/diarySavedImageView"
