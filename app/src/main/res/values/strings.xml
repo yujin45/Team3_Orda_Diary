@@ -38,4 +38,23 @@
     <string name="todo_edit_dialog_label_title">할 일 제목</string>
     <string name="todo_edit_dialog_label_content">할 일 내용</string>
     <string name="todo_edit_dialog_btn_ok">확인</string>
+
+
+    <!-- MapMemo Fragment -->
+    <string name="map_title">지도 메모장</string>
+    <string name="map_search_hint">검색할 장소를 입력해주세요</string>
+    <string name="map_search_button">검색</string>
+    <string name="map_add_marker">마커 추가</string>
+    <string name="map_no_results">검색 결과가 없습니다.</string>
+    <string name="map_address_error">주소 변환 오류</string>
+    <string name="map_marker_added">마커가 추가되었습니다.</string>
+
+    <!-- MapMemo Dialog -->
+    <string name="map_dialog_title_hint">마커 제목을 입력하세요</string>
+    <string name="map_dialog_content_hint">메모 내용을 입력하세요</string>
+    <string name="map_dialog_btn_ok">확인</string>
+
+    <!-- Basic -->
+    <string name="btn_ok">확인</string>
+    <string name="btn_cancel">취소</string>
 </resources>
