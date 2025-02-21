@@ -28,6 +28,7 @@
         android:inputType="text"
         android:minHeight="48dp"
         android:padding="8dp"
+        android:textColorHint="@color/edit_text_hint"
         app:layout_constraintEnd_toStartOf="@id/map_btn_search"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_map_title" />

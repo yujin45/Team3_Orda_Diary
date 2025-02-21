@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/white"
     tools:context=".ui.home.HomeFragment">
 
     <ImageView
@@ -28,7 +28,7 @@
         android:fontFamily="@font/nanumleo_extrabold"
         android:gravity="center"
         android:text="@string/home_fragment_title"
-        android:textColor="#5F7DE7"
+        android:textColor="@color/orda"
         android:textSize="48sp"
         app:layout_constraintBottom_toTopOf="@id/textView5"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
         android:fontFamily="@font/nanumleo_bold"
         android:gravity="center"
         android:text="@string/home_fragment_desc"
-        android:textColor="#7C9BE2"
+        android:textColor="@color/orda_is_your_diary"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
