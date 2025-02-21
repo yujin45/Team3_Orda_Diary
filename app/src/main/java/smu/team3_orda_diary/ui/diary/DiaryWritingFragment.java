@@ -274,7 +274,7 @@ public class DiaryWritingFragment extends Fragment {
 
         @Override
         public void onError(int error) {
-            Toast.makeText(requireContext(), R.string.error_speech, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(requireContext(), R.string.error_speech, Toast.LENGTH_SHORT).show();
         }
 
         @Override
