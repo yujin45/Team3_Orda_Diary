@@ -41,9 +41,11 @@ public class DiarySelectedFragment extends Fragment {
             }
 
             binding.itemTitle.textText.setText(selectedDiary.getTitle());
+            binding.itemTitle.labelText.setText(getString(R.string.diary_title_label));
             binding.itemDate.textText.setText(selectedDiary.getDate());
+            binding.itemDate.labelText.setText(getString(R.string.diary_date_label));
             binding.itemFeel.textText.setText(selectedDiary.getFeel());
-
+            binding.itemFeel.labelText.setText(getString(R.string.diary_feel_label));
             binding.itemContent.setText(selectedDiary.getText());
         }
     }
