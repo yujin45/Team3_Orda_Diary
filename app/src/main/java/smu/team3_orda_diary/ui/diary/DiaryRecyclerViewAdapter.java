@@ -2,7 +2,6 @@ package smu.team3_orda_diary.ui.diary;
 
 import android.content.Context;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -65,9 +64,10 @@ public class DiaryRecyclerViewAdapter extends RecyclerView.Adapter<DiaryRecycler
             }
 
             binding.getRoot().setOnClickListener(v -> {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("selectedDiary", diary);
-                Navigation.findNavController(v).navigate(R.id.action_diaryListFragment_to_diarySelectedFragment, bundle);
+                DiaryListFragmentDirections.ActionDiaryListFragmentToDiarySelectedFragment action =
+                        DiaryListFragmentDirections.actionDiaryListFragmentToDiarySelectedFragment(diary);
+                Navigation.findNavController(v).navigate(action);
+
             });
         }
     }

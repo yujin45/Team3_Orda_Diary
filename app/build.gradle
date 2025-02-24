@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'androidx.navigation.safeargs'
 }
 
 def localProperties = new Properties()
@@ -46,15 +47,17 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
-    implementation 'androidx.navigation:navigation-fragment:2.8.7'
-    implementation 'androidx.navigation:navigation-ui:2.8.7'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
 
-
     //구글맵
     implementation 'com.google.android.gms:play-services-maps:19.0.0'
     implementation 'com.google.android.gms:play-services-location:21.3.0'
+
+    implementation 'androidx.navigation:navigation-fragment:2.8.7'
+    implementation 'androidx.navigation:navigation-ui:2.8.7'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.8.7'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.8.7'
 
 }

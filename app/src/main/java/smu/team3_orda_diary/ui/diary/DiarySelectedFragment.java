@@ -29,25 +29,22 @@ public class DiarySelectedFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            selectedDiary = (OnePageDiary) getArguments().getSerializable("selectedDiary");
+        DiarySelectedFragmentArgs args = DiarySelectedFragmentArgs.fromBundle(getArguments());
+        selectedDiary = args.getSelectedDiary();
+
+        if (selectedDiary.getPicture_uri() != null && !selectedDiary.getPicture_uri().isEmpty()) {
+            binding.diaryImage.setImageURI(Uri.parse(selectedDiary.getPicture_uri()));
+        } else {
+            binding.diaryImage.setImageResource(R.drawable.notice_insert_image);
         }
 
-        if (selectedDiary != null) {
-            if (selectedDiary.getPicture_uri() != null && !selectedDiary.getPicture_uri().isEmpty()) {
-                binding.diaryImage.setImageURI(Uri.parse(selectedDiary.getPicture_uri()));
-            } else {
-                binding.diaryImage.setImageResource(R.drawable.notice_insert_image);
-            }
-
-            binding.itemTitle.textText.setText(selectedDiary.getTitle());
-            binding.itemTitle.labelText.setText(getString(R.string.diary_title_label));
-            binding.itemDate.textText.setText(selectedDiary.getDate());
-            binding.itemDate.labelText.setText(getString(R.string.diary_date_label));
-            binding.itemFeel.textText.setText(selectedDiary.getFeel());
-            binding.itemFeel.labelText.setText(getString(R.string.diary_feel_label));
-            binding.itemContent.setText(selectedDiary.getText());
-        }
+        binding.itemTitle.textText.setText(selectedDiary.getTitle());
+        binding.itemTitle.labelText.setText(getString(R.string.diary_title_label));
+        binding.itemDate.textText.setText(selectedDiary.getDate());
+        binding.itemDate.labelText.setText(getString(R.string.diary_date_label));
+        binding.itemFeel.textText.setText(selectedDiary.getFeel());
+        binding.itemFeel.labelText.setText(getString(R.string.diary_feel_label));
+        binding.itemContent.setText(selectedDiary.getText());
     }
 
     @Override
