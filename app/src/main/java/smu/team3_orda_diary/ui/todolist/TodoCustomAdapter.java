@@ -62,7 +62,7 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
                         if (which == 0) {
                             showEditTodoDialog(todoItem, curPos);
                         } else {
-                            mDBHelper.deleteTodo(todoItem.getWriteDate());
+                            mDBHelper.deleteTodo(todoItem.getId());
                             mTodoItems.remove(curPos);
                             notifyItemRemoved(curPos);
 
@@ -89,7 +89,7 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
             String currentTime = new SimpleDateFormat(DATE_PATTERN_DB, Locale.getDefault()).format(new Date());
             String beforeTime = todoItem.getWriteDate();
 
-            mDBHelper.updateTodo(title, content, currentTime, beforeTime);
+            mDBHelper.updateTodo(todoItem.getId(), title, content, currentTime, beforeTime);
 
             todoItem.setTitle(title);
             todoItem.setContent(content);

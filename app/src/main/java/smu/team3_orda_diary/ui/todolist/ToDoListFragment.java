@@ -20,8 +20,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import smu.team3_orda_diary.database.DBHelper;
 import smu.team3_orda_diary.R;
+import smu.team3_orda_diary.database.DBHelper;
 import smu.team3_orda_diary.databinding.FragmentToDoListBinding;
 import smu.team3_orda_diary.model.TodoItem;
 
@@ -111,6 +111,13 @@ public class ToDoListFragment extends Fragment {
     private void loadRecentDB(String writeDate) {
         todoItems.clear();
         todoItems.addAll(dbHelper.getTodoList(writeDate));
+
+        if (todoItems.isEmpty()) {
+            binding.rvTodo.setVisibility(View.GONE);
+        } else {
+            binding.rvTodo.setVisibility(View.VISIBLE);
+        }
+
         todoAdapter.notifyDataSetChanged();
     }
 
