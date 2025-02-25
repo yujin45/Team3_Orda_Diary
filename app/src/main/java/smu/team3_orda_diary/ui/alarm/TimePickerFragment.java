@@ -1,4 +1,4 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.alarm;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;

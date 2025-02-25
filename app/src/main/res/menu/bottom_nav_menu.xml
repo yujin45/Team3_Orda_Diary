@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/todolistFragment"
+        android:icon="@drawable/ic_today_24dp"
+        android:title="@string/bottom_nav_menu_schedule" />
+
+    <item
+        android:id="@+id/mapMemoFragment"
+        android:icon="@drawable/ic_location_on_24dp"
+        android:title="@string/bottom_nav_menu_map" />
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home_24dp"
+        android:title="@string/bottom_nav_menu_home" />
+
+    <item
+        android:id="@+id/diaryListFragment"
+        android:icon="@drawable/ic_feed_24dp"
+        android:title="@string/bottom_nav_menu_diary" />
+
+    <item
+        android:id="@+id/alarmFragment"
+        android:icon="@drawable/ic_alarm_24dp"
+        android:title="@string/bottom_nav_menu_alarm" />
+
+</menu>

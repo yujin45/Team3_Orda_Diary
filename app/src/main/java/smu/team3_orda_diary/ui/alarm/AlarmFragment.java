@@ -1,11 +1,10 @@
-package smu.team3_orda_diary;
+package smu.team3_orda_diary.ui.alarm;
 
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static smu.team3_orda_diary.MainActivity.mDBHelper;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,39 +14,47 @@ import android.hardware.camera2.CameraManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class AlarmActivity extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener {
+import smu.team3_orda_diary.R;
+import smu.team3_orda_diary.databinding.FragmentAlarmBinding;
+
+public class AlarmFragment extends Fragment {
+    private FragmentAlarmBinding binding;
     private AlarmManager alarmManager;
-    ImageButton makeButton, deleteButton;
-    TextView mTextView;
     private static CameraManager mCameraManager;
     private static boolean mFlashOn = false;
     public static String mCameraId;
-    Calendar alarmC;
-    String alarmTime;
+    private Calendar alarmC;
+    private String alarmTime;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentAlarmBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_alarm);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        // UI 요소 초기화
-        mTextView = findViewById(R.id.textView);
-        makeButton = findViewById(R.id.makeButton);
-        deleteButton = findViewById(R.id.deleteButton);
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
 
-        // 이전 알람 시간 불러오기 (예외 방지)
         alarmTime = mDBHelper.getAlarmTime();
         if (alarmTime != null && !alarmTime.isEmpty()) {
             try {
@@ -62,48 +69,52 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
             }
         }
 
-        // 알람 설정 버튼
-        makeButton.setOnClickListener(v -> {
-            Toast.makeText(getApplicationContext(), "설정 누름", Toast.LENGTH_SHORT).show();
-            DialogFragment timePicker = new TimePickerFragment();
-            timePicker.show(getSupportFragmentManager(), "time picker");
-        });
+        binding.makeButton.setOnClickListener(v -> showTimePicker());
+        binding.deleteButton.setOnClickListener(v -> cancelAlarm());
 
-        // 알람 취소 버튼
-        deleteButton.setOnClickListener(v -> cancelAlarm());
-
-        // 플래시 기능 초기화
         initializeFlashlight();
     }
 
-    // 타임피커 설정 후 알람 시간 업데이트
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        c.set(Calendar.MINUTE, minute);
-        c.set(Calendar.SECOND, 0);
-        updateTimeText(c);
-        startAlarm(c);
+    private void showTimePicker() {
+        MaterialTimePicker picker = new MaterialTimePicker.Builder()
+                .setTimeFormat(TimeFormat.CLOCK_24H)
+                .setHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
+                .setMinute(Calendar.getInstance().get(Calendar.MINUTE))
+                .setTitleText(getString(R.string.alarm_set))
+                .setTheme(R.style.CustomTimePicker)
+                .build();
+
+        picker.show(getParentFragmentManager(), "timePicker");
+
+        picker.addOnPositiveButtonClickListener(v -> {
+            int hour = picker.getHour();
+            int minute = picker.getMinute();
+
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.HOUR_OF_DAY, hour);
+            c.set(Calendar.MINUTE, minute);
+            c.set(Calendar.SECOND, 0);
+
+            updateTimeText(c);
+            startAlarm(c);
+        });
     }
 
-    // 알람 시간 UI 업데이트
     private void updateTimeText(Calendar c) {
-        String timeText = "알람 맞춰짐 \n" + DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
-        mTextView.setText(timeText);
+        String timeText = getString(R.string.alarm_scheduled) + "\n" + DateFormat.getTimeInstance(DateFormat.SHORT).format(c.getTime());
+        binding.textView.setText(timeText);
     }
 
-    // 알람 설정
     private void startAlarm(Calendar c) {
         if (alarmManager == null) return;
 
-        Intent intent = new Intent(this, AlarmReceiver.class);
+        Intent intent = new Intent(requireContext(), AlarmReceiver.class);
         int flags = PendingIntent.FLAG_UPDATE_CURRENT;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) flags |= FLAG_IMMUTABLE;
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, flags);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(requireContext(), 1, intent, flags);
 
         if (c.before(Calendar.getInstance())) c.add(Calendar.DATE, 1);
 
-        // 데이터베이스 업데이트
         Date date = new Date(c.getTimeInMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateStr = format.format(date);
@@ -114,27 +125,24 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
             mDBHelper.insertAlarm(dateStr);
         }
 
-        // 알람 설정
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
     }
 
-    // 알람 취소
     private void cancelAlarm() {
         String alarmTime = mDBHelper.getAlarmTime();
         if (alarmTime != null) {
             mDBHelper.deleteAlarm(alarmTime);
         }
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, FLAG_IMMUTABLE);
+
+        Intent intent = new Intent(requireContext(), AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(requireContext(), 1, intent, FLAG_IMMUTABLE);
         alarmManager.cancel(pendingIntent);
-        mTextView.setText("알람 취소됨");
+        binding.textView.setText(R.string.alarm_canceled);
     }
 
-    // 플래시 기능 초기화
     private void initializeFlashlight() {
-        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-            mCameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
+        if (requireContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+            mCameraManager = (CameraManager) requireContext().getSystemService(Context.CAMERA_SERVICE);
             if (mCameraId == null) {
                 try {
                     for (String id : mCameraManager.getCameraIdList()) {
@@ -154,7 +162,6 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
         }
     }
 
-    // 플래시 켜기
     public static void flashLightOn() {
         if (mCameraManager != null && mCameraId != null) {
             try {
@@ -163,12 +170,9 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
             } catch (CameraAccessException e) {
                 Log.e("FlashError", "Error turning on flashlight: " + e.getMessage());
             }
-        } else {
-            Log.e("FlashError", "CameraManager or CameraId is null");
         }
     }
 
-    // 플래시 끄기
     public static void flashLightOff() {
         if (mCameraManager != null && mCameraId != null) {
             try {
@@ -177,8 +181,12 @@ public class AlarmActivity extends AppCompatActivity implements TimePickerDialog
             } catch (CameraAccessException e) {
                 Log.e("FlashError", "Error turning off flashlight: " + e.getMessage());
             }
-        } else {
-            Log.e("FlashError", "CameraManager or CameraId is null");
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
