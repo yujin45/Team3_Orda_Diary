@@ -197,9 +197,9 @@ public class DiaryWritingFragment extends Fragment {
             return;
         }
 
-        mDBHelper.insert(title, date, feeling, imagePath, content);
+        mDBHelper.insertDiary(title, date, feeling, imagePath, content);
 
-        diaryList = mDBHelper.getResult();
+        diaryList = mDBHelper.getDiaryList();
 
         if (adapter != null) {
             adapter.notifyDataSetChanged();

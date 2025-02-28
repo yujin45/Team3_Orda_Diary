@@ -101,7 +101,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     //////// 다이어리 관련
-    public void insert(String title, String date, String feel, String picture_uri, String text) {
+    public void insertDiary(String title, String date, String feel, String picture_uri, String text) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("INSERT INTO DIARY_TB (TITLE, DATE, FEEL,PICTURE_URI,TEXT) VALUES ('" + title + "','" + date + "','" + feel + "','" + picture_uri + "','" + text + "');");
 
@@ -110,7 +110,7 @@ public class DBHelper extends SQLiteOpenHelper {
         //db.close();
     }
 
-    public void update(int diary_id, String title, String date, String feel, String picture_uri, String text) {
+    public void updateDiary(int diary_id, String title, String date, String feel, String picture_uri, String text) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("UPDATE DIARY_TB SET TITLE = " + title
                 + ", DATE = '" + date + "'"
@@ -121,13 +121,13 @@ public class DBHelper extends SQLiteOpenHelper {
         // db.close();
     }
 
-    public void delete(int diary_id) {
+    public void deleteDiary(int diary_id) {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DELETE DIARY_TB WHERE DIARY_ID = '" + diary_id + "'");
         //db.close();
     }
 
-    public ArrayList<OnePageDiary> getResult() {
+    public ArrayList<OnePageDiary> getDiaryList() {
         // 읽기가 가능하게 DB 열기
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<OnePageDiary> onePageDiaries = new ArrayList<>();
