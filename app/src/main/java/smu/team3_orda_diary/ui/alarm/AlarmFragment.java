@@ -1,7 +1,6 @@
 package smu.team3_orda_diary.ui.alarm;
 
 import static android.app.PendingIntent.FLAG_IMMUTABLE;
-import static smu.team3_orda_diary.MainActivity.mDBHelper;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -31,9 +30,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 import smu.team3_orda_diary.R;
+import smu.team3_orda_diary.database.DBHelper;
 import smu.team3_orda_diary.databinding.FragmentAlarmBinding;
 
 public class AlarmFragment extends Fragment {
+    private DBHelper mDBHelper;
     private FragmentAlarmBinding binding;
     private AlarmManager alarmManager;
     private static CameraManager mCameraManager;
@@ -41,6 +42,12 @@ public class AlarmFragment extends Fragment {
     public static String mCameraId;
     private Calendar alarmC;
     private String alarmTime;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mDBHelper = DBHelper.getInstance(requireContext());
+    }
 
     @Nullable
     @Override

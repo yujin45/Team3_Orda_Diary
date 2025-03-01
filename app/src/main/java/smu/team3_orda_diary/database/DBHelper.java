@@ -7,8 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
 
 import smu.team3_orda_diary.model.OnePageDiary;
@@ -18,8 +16,19 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final int DB_VERSION = 1;
     public static final String DB_NAME = "Ordatest5.db";
 
-    public DBHelper(@Nullable Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+    private static volatile DBHelper instance;
+
+    private DBHelper(Context context) {
+        super(context.getApplicationContext(), DB_NAME, null, DB_VERSION);
+    }
+
+    public static DBHelper getInstance(Context context) {
+        if (instance == null) {
+            synchronized (DBHelper.class) {
+                if (instance == null) instance = new DBHelper(context);
+            }
+        }
+        return instance;
     }
 
     @Override

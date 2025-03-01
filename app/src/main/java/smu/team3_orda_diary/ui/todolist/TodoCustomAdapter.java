@@ -23,7 +23,7 @@ import smu.team3_orda_diary.model.TodoItem;
 
 public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.ViewHolder> {
     private final Context mContext;
-    private final DBHelper mDBHelper;
+    private DBHelper mDBHelper;
     private final ArrayList<TodoItem> mTodoItems;
 
     private static final String DATE_PATTERN_DB = "yyyy-MM-dd";
@@ -31,7 +31,7 @@ public class TodoCustomAdapter extends RecyclerView.Adapter<TodoCustomAdapter.Vi
     public TodoCustomAdapter(ArrayList<TodoItem> todoItems, Context context) {
         this.mTodoItems = todoItems;
         this.mContext = context;
-        mDBHelper = new DBHelper(context);
+        mDBHelper = DBHelper.getInstance(context);
     }
 
     @NonNull

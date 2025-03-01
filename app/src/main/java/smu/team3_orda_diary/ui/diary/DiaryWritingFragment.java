@@ -1,7 +1,5 @@
 package smu.team3_orda_diary.ui.diary;
 
-import static smu.team3_orda_diary.MainActivity.mDBHelper;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -43,11 +41,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import smu.team3_orda_diary.R;
+import smu.team3_orda_diary.database.DBHelper;
 import smu.team3_orda_diary.databinding.FragmentDiaryWritingBinding;
 
 
 public class DiaryWritingFragment extends Fragment {
-
+    private DBHelper mDBHelper;
     private FragmentDiaryWritingBinding binding;
     private DiaryWritingViewModel diaryViewModel;
     private Calendar diaryCalendar;
@@ -56,6 +55,12 @@ public class DiaryWritingFragment extends Fragment {
     private Intent recordIntent;
     private boolean recording = false;
     private String[] feelings;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mDBHelper = DBHelper.getInstance(requireContext());
+    }
 
     @Nullable
     @Override

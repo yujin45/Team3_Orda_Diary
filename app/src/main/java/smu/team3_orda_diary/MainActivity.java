@@ -15,13 +15,11 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.ArrayList;
 import java.util.List;
 
-import smu.team3_orda_diary.database.DBHelper;
 import smu.team3_orda_diary.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private NavController navController;
-    public static DBHelper mDBHelper;
     private static final int PERMISSION_REQUEST_CODE = 101;
 
     @Override
@@ -30,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        mDBHelper = new DBHelper(this);
         requestAppPermissions();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
