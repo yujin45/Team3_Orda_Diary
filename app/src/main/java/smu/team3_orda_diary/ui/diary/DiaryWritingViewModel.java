@@ -30,9 +30,11 @@ public class DiaryWritingViewModel extends ViewModel {
         String contentValue = content.getValue();
         String imagePathValue = imagePath.getValue();
 
-        if (titleValue.isEmpty() || dateValue.isEmpty() ||
-                feelingValue.equals(DEFAULT_FEELING) || contentValue.isEmpty() ||
-                imagePathValue.equals(DEFAULT_IMAGE_PATH)) {
+        if ((titleValue == null || titleValue.isEmpty()) ||
+                (dateValue == null || dateValue.isEmpty()) ||
+                (feelingValue == null || feelingValue.equals(DEFAULT_FEELING)) ||
+                (contentValue == null || contentValue.isEmpty()) ||
+                (imagePathValue == null || imagePathValue.equals(DEFAULT_IMAGE_PATH))) {
             return false;
         }
 
