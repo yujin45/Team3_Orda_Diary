@@ -14,16 +14,22 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.util.ArrayList;
 
-import smu.team3_orda_diary.MainActivity;
 import smu.team3_orda_diary.R;
+import smu.team3_orda_diary.database.DBHelper;
 import smu.team3_orda_diary.databinding.FragmentDiaryListBinding;
 import smu.team3_orda_diary.model.OnePageDiary;
 
 public class DiaryListFragment extends Fragment {
-
     private FragmentDiaryListBinding binding;
     public static DiaryRecyclerViewAdapter adapter;
     public static ArrayList<OnePageDiary> diaryList;
+    private DBHelper mDBHelper;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mDBHelper = DBHelper.getInstance(requireContext());
+    }
 
     @Nullable
     @Override
@@ -37,7 +43,7 @@ public class DiaryListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         try {
-            diaryList = MainActivity.mDBHelper.getDiaryList();
+            diaryList = mDBHelper.getDiaryList();
             if (diaryList == null) {
                 diaryList = new ArrayList<>();
             }

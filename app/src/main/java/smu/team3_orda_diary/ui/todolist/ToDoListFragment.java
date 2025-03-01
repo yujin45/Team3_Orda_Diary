@@ -38,6 +38,11 @@ public class ToDoListFragment extends Fragment {
     private static final String CURRENT_TIME_FORMAT = "%d-%02d-%02d";
     private static final String TODO_TODAY_FORMAT = "%d년 %d월 %d일";
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dbHelper = DBHelper.getInstance(requireContext());
+    }
 
     @Nullable
     @Override
@@ -50,7 +55,6 @@ public class ToDoListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        dbHelper = new DBHelper(requireContext());
         todoItems = new ArrayList<>();
         todoAdapter = new TodoCustomAdapter(todoItems, requireContext());
 
