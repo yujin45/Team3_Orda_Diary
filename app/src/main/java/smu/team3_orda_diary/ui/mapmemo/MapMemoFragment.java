@@ -21,17 +21,26 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import smu.team3_orda_diary.R;
+import smu.team3_orda_diary.database.DBHelper;
 import smu.team3_orda_diary.databinding.DialogEditMapBinding;
 import smu.team3_orda_diary.databinding.FragmentMapMemoBinding;
+import smu.team3_orda_diary.model.MapMemoItem;
 
 public class MapMemoFragment extends Fragment implements OnMapReadyCallback {
-
+    private DBHelper dbHelper;
     private FragmentMapMemoBinding binding;
     private GoogleMap mMap;
     private Geocoder geocoder;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dbHelper = DBHelper.getInstance(requireContext());
+    }
 
     @Nullable
     @Override
@@ -97,6 +106,8 @@ public class MapMemoFragment extends Fragment implements OnMapReadyCallback {
                 mMap.addMarker(markerOptions);
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentPosition, 15));
                 Toast.makeText(requireContext(), getString(R.string.map_marker_added), Toast.LENGTH_LONG).show();
+
+                dbHelper.insertMapMemo(title, content, currentPosition.latitude, currentPosition.longitude);
             }
 
             dialog.dismiss();
@@ -111,6 +122,22 @@ public class MapMemoFragment extends Fragment implements OnMapReadyCallback {
         LatLng SEOUL = new LatLng(37.56, 126.97);
         mMap.addMarker(new MarkerOptions().position(SEOUL).title("서울").snippet("한국의 수도"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 10));
+
+        loadSavedMarkers();
+    }
+
+    private void loadSavedMarkers() {
+        ArrayList<MapMemoItem> mapMemoList = dbHelper.getAllMapMemos();
+
+        for (MapMemoItem memo : mapMemoList) {
+            LatLng location = new LatLng(memo.getLatitude(), memo.getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .title(memo.getTitle())
+                    .snippet(memo.getContent())
+                    .position(location);
+
+            mMap.addMarker(markerOptions);
+        }
     }
 
     @Override
