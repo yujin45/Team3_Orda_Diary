@@ -17,6 +17,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+import smu.team3_orda_diary.model.MapMemoItem;
 import smu.team3_orda_diary.model.OnePageDiary;
 import smu.team3_orda_diary.model.TodoItem;
 
@@ -29,6 +30,9 @@ public class DBHelperTest {
     public void setUp() {
         context = ApplicationProvider.getApplicationContext();
         dbHelper = DBHelper.getInstance(context);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.execSQL("DELETE FROM MAPMEMO_TB");
+        db.close();
     }
 
     @After
@@ -37,6 +41,7 @@ public class DBHelperTest {
         db.execSQL("DELETE FROM TODOLIST_TB");
         db.execSQL("DELETE FROM DIARY_TB");
         db.execSQL("DELETE FROM ALARM_TB");
+        db.execSQL("DELETE FROM MAPMEMO_TB");
         db.close();
     }
 
@@ -71,13 +76,11 @@ public class DBHelperTest {
         ArrayList<TodoItem> todoList = dbHelper.getTodoList(writeDate);
         int todoId = todoList.get(0).getId();
 
-        // 수정
         String newTitle = "Updated Todo";
         dbHelper.updateTodo(todoId, newTitle, content, writeDate, writeDate);
         todoList = dbHelper.getTodoList(writeDate);
         assertEquals(newTitle, todoList.get(0).getTitle());
 
-        // 삭제
         dbHelper.deleteTodo(todoId);
         todoList = dbHelper.getTodoList(writeDate);
         assertTrue(todoList.isEmpty());
@@ -111,5 +114,39 @@ public class DBHelperTest {
         dbHelper.deleteAlarm(alarmTime);
         retrievedTime = dbHelper.getAlarmTime();
         assertEquals(null, retrievedTime);
+    }
+
+    @Test
+    public void testInsertAndGetMapMemo() {
+        String title = "Test Location";
+        String content = "Favorite cafe";
+        double latitude = 37.5665;
+        double longitude = 126.9780;
+
+        dbHelper.insertMapMemo(title, content, latitude, longitude);
+        ArrayList<MapMemoItem> mapMemos = dbHelper.getAllMapMemos();
+
+        assertEquals(1, mapMemos.size());
+        assertEquals(title, mapMemos.get(0).getTitle());
+        assertEquals(content, mapMemos.get(0).getContent());
+        assertEquals(latitude, mapMemos.get(0).getLatitude(), 0.0001);
+        assertEquals(longitude, mapMemos.get(0).getLongitude(), 0.0001);
+    }
+
+    @Test
+    public void testDeleteMapMemo() {
+        String title = "Test Location";
+        String content = "Favorite cafe";
+        double latitude = 37.5665;
+        double longitude = 126.9780;
+
+        dbHelper.insertMapMemo(title, content, latitude, longitude);
+        ArrayList<MapMemoItem> mapMemos = dbHelper.getAllMapMemos();
+        assertTrue(mapMemos.size() > 0);
+
+        int memoId = mapMemos.get(0).getId();
+        dbHelper.deleteMapMemo(memoId);
+        mapMemos = dbHelper.getAllMapMemos();
+        assertTrue(mapMemos.isEmpty());
     }
 }
