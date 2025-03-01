@@ -37,7 +37,7 @@ public class DiaryListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         try {
-            diaryList = MainActivity.mDBHelper.getResult();
+            diaryList = MainActivity.mDBHelper.getDiaryList();
             if (diaryList == null) {
                 diaryList = new ArrayList<>();
             }

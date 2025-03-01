@@ -1,8 +1,6 @@
 package smu.team3_orda_diary.ui.diary;
 
 import static smu.team3_orda_diary.MainActivity.mDBHelper;
-import static smu.team3_orda_diary.ui.diary.DiaryListFragment.adapter;
-import static smu.team3_orda_diary.ui.diary.DiaryListFragment.diaryList;
 
 import android.Manifest;
 import android.app.AlertDialog;
@@ -19,6 +17,7 @@ import android.provider.MediaStore;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.io.File;
@@ -44,12 +45,13 @@ import java.util.Date;
 import smu.team3_orda_diary.R;
 import smu.team3_orda_diary.databinding.FragmentDiaryWritingBinding;
 
+
 public class DiaryWritingFragment extends Fragment {
 
     private FragmentDiaryWritingBinding binding;
+    private DiaryWritingViewModel diaryViewModel;
     private Calendar diaryCalendar;
     private Uri imageUri;
-    private String imageFilePath;
     private SpeechRecognizer speechRecognizer;
     private Intent recordIntent;
     private boolean recording = false;
@@ -58,7 +60,9 @@ public class DiaryWritingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = FragmentDiaryWritingBinding.inflate(inflater, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_diary_writing, container, false);
+        binding.setLifecycleOwner(this); // LiveData 업데이트 감지
+
         return binding.getRoot();
     }
 
@@ -66,6 +70,9 @@ public class DiaryWritingFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        DiaryWritingViewModelFactory factory = new DiaryWritingViewModelFactory(mDBHelper);
+        diaryViewModel = new ViewModelProvider(this, factory).get(DiaryWritingViewModel.class);
+        binding.setViewModel(diaryViewModel);
         feelings = getResources().getStringArray(R.array.diary_feelings);
 
         diaryCalendar = Calendar.getInstance();
@@ -89,7 +96,7 @@ public class DiaryWritingFragment extends Fragment {
                 diaryCalendar.get(Calendar.YEAR),
                 diaryCalendar.get(Calendar.MONTH) + 1,
                 diaryCalendar.get(Calendar.DAY_OF_MONTH));
-        binding.dateEditText.setText(formattedDate);
+        diaryViewModel.date.setValue(formattedDate);
     }
 
     private final DatePickerDialog.OnDateSetListener datePickerListener = (view, year, month, dayOfMonth) -> {
@@ -102,8 +109,9 @@ public class DiaryWritingFragment extends Fragment {
                 if (uri != null) {
                     try {
                         Bitmap bitmap = loadBitmapFromUri(uri);
-                        binding.diaryImageView.setImageBitmap(bitmap);
                         imageUri = saveImageToInternalStorage(bitmap);
+                        diaryViewModel.imagePath.setValue(imageUri.toString());
+                        Log.d("DiaryWriting", imageUri.toString());
                     } catch (IOException e) {
                         Toast.makeText(requireContext(), getString(R.string.diary_write_no_image), Toast.LENGTH_SHORT).show();
                     }
@@ -135,7 +143,7 @@ public class DiaryWritingFragment extends Fragment {
     private final ActivityResultLauncher<Intent> takePictureLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == getActivity().RESULT_OK) {
-                    binding.diaryImageView.setImageURI(imageUri);
+                    diaryViewModel.imagePath.setValue(imageUri.toString());
                 } else {
                     Toast.makeText(requireContext(), R.string.camera_not_available, Toast.LENGTH_SHORT).show();
                 }
@@ -180,34 +188,18 @@ public class DiaryWritingFragment extends Fragment {
     private void showFeelingsDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(requireContext())
                 .setTitle(R.string.diary_write_feeling)
-                .setItems(feelings, (dialog, which) -> binding.feelButton.setText(feelings[which]))
+                .setItems(feelings, (dialog, which) -> diaryViewModel.feeling.setValue(feelings[which]))
                 .create();
         alertDialog.show();
     }
 
     private void saveDiary() {
-        String title = binding.titleEditText.getText().toString();
-        String date = binding.dateEditText.getText().toString();
-        String feeling = binding.feelButton.getText().toString();
-        String content = binding.editText.getText().toString();
-        String imagePath = (imageUri != null) ? imageUri.toString() : "";
-
-        if (title.isEmpty() || date.isEmpty() || feeling.isEmpty() || content.isEmpty()) {
+        if (diaryViewModel.addDiary()) {
+            Toast.makeText(requireContext(), R.string.diarywritingfragment_done, Toast.LENGTH_SHORT).show();
+            NavHostFragment.findNavController(this).navigate(R.id.action_diaryWritingFragment_to_diaryListFragment);
+        } else {
             Toast.makeText(requireContext(), R.string.diarywritingfragment_notice_write_all_feild, Toast.LENGTH_SHORT).show();
-            return;
         }
-
-        mDBHelper.insert(title, date, feeling, imagePath, content);
-
-        diaryList = mDBHelper.getResult();
-
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
-
-        Toast.makeText(requireContext(), R.string.diarywritingfragment_done, Toast.LENGTH_SHORT).show();
-
-        NavHostFragment.findNavController(this).navigate(R.id.action_diaryWritingFragment_to_diaryListFragment);
     }
 
     private Bitmap loadBitmapFromUri(Uri uri) throws IOException {
@@ -274,23 +266,26 @@ public class DiaryWritingFragment extends Fragment {
 
         @Override
         public void onError(int error) {
-            //Toast.makeText(requireContext(), R.string.error_speech, Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onResults(Bundle bundle) {
             ArrayList<String> matches = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-            String originText = binding.editText.getText().toString();
+            if (matches != null && !matches.isEmpty()) {
+                String originText = diaryViewModel.content.getValue();
+                StringBuilder newText = new StringBuilder(originText);
 
-            StringBuilder newText = new StringBuilder();
-            for (String match : matches) {
-                newText.append(match);
+                for (String match : matches) {
+                    newText.append(match).append(" ");
+                }
+
+                diaryViewModel.content.setValue(newText.toString());
             }
 
-            binding.editText.setText(originText + newText.toString() + " ");
-            speechRecognizer.startListening(recordIntent);
+            if (recording) {
+                speechRecognizer.startListening(recordIntent);
+            }
         }
-
 
         @Override
         public void onPartialResults(Bundle bundle) {
