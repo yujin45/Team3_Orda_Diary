@@ -9,11 +9,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
+import smu.team3_orda_diary.model.MapMemoItem;
 import smu.team3_orda_diary.model.OnePageDiary;
 import smu.team3_orda_diary.model.TodoItem;
 
 public class DBHelper extends SQLiteOpenHelper {
-    public static final int DB_VERSION = 1;
+    public static final int DB_VERSION = 2;
     public static final String DB_NAME = "Ordatest5.db";
 
     private static volatile DBHelper instance;
@@ -50,11 +51,25 @@ public class DBHelper extends SQLiteOpenHelper {
         // 알람 관련
         db.execSQL("CREATE TABLE IF NOT EXISTS ALARM_TB (ALARM_ID INTEGER PRIMARY KEY AUTOINCREMENT,TIME TEXT NOT NULL); ");
 
+        // Map Memo
+        db.execSQL("CREATE TABLE IF NOT EXISTS MAPMEMO_TB (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "title TEXT NOT NULL, " +
+                "content TEXT NOT NULL, " +
+                "latitude REAL NOT NULL, " +
+                "longitude REAL NOT NULL);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        onCreate(db);
+        if (oldVersion < 2) {
+            db.execSQL("CREATE TABLE IF NOT EXISTS MAPMEMO_TB (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "title TEXT NOT NULL, " +
+                    "content TEXT NOT NULL, " +
+                    "latitude REAL NOT NULL, " +
+                    "longitude REAL NOT NULL);");
+        }
     }
 
     //SELECT 문 (할일 목록을 조회한다.)
@@ -181,4 +196,32 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM ALARM_TB WHERE TIME = '" + time + "'");
     }
 
+    public void insertMapMemo(String title, String content, double latitude, double longitude) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("INSERT INTO MAPMEMO_TB (title, content, latitude, longitude) VALUES ('" + title + "', '" + content + "', " + latitude + ", " + longitude + ")");
+    }
+
+    public ArrayList<MapMemoItem> getAllMapMemos() {
+        ArrayList<MapMemoItem> mapMemos = new ArrayList<>();
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM MAPMEMO_TB", null);
+
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+            String title = cursor.getString(cursor.getColumnIndexOrThrow("title"));
+            String content = cursor.getString(cursor.getColumnIndexOrThrow("content"));
+            double latitude = cursor.getDouble(cursor.getColumnIndexOrThrow("latitude"));
+            double longitude = cursor.getDouble(cursor.getColumnIndexOrThrow("longitude"));
+
+            MapMemoItem memo = new MapMemoItem(id, title, content, latitude, longitude);
+            mapMemos.add(memo);
+        }
+        cursor.close();
+        return mapMemos;
+    }
+
+    public void deleteMapMemo(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM MAPMEMO_TB WHERE id = " + id);
+    }
 }
