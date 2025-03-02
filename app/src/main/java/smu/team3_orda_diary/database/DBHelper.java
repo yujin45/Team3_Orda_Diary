@@ -18,8 +18,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static volatile DBHelper instance;
 
+    private SQLiteStatement insertTodoStmt, updateTodoStmt, deleteTodoStmt;
+    private SQLiteStatement insertDiaryStmt;
+    private SQLiteStatement insertAlarmStmt, updateAlarmStmt;
+    private SQLiteStatement insertMapMemoStmt, deleteMapMemoStmt;
+
     private DBHelper(Context context) {
         super(context.getApplicationContext(), DB_NAME, null, DB_VERSION);
+        prepareStatements();
     }
 
     public static DBHelper getInstance(Context context) {
@@ -62,6 +68,22 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    private void prepareStatements() {
+        SQLiteDatabase db = getWritableDatabase();
+
+        insertTodoStmt = db.compileStatement("INSERT INTO TODOLIST_TB (title, content, writeDate) VALUES (?, ?, ?)");
+        updateTodoStmt = db.compileStatement("UPDATE TODOLIST_TB SET title = ?, content = ?, writeDate = ? WHERE id = ?");
+        deleteTodoStmt = db.compileStatement("DELETE FROM TODOLIST_TB WHERE id = ?");
+
+        insertDiaryStmt = db.compileStatement("INSERT INTO DIARY_TB (TITLE, DATE, FEEL, PICTURE_URI, TEXT) VALUES (?, ?, ?, ?, ?)");
+
+        insertAlarmStmt = db.compileStatement("INSERT INTO ALARM_TB (TIME) VALUES (?)");
+        updateAlarmStmt = db.compileStatement("UPDATE ALARM_TB SET TIME = ?");
+
+        insertMapMemoStmt = db.compileStatement("INSERT INTO MAPMEMO_TB (title, content, latitude, longitude) VALUES (?, ?, ?, ?)");
+        deleteMapMemoStmt = db.compileStatement("DELETE FROM MAPMEMO_TB WHERE id = ?");
+    }
+
     public ArrayList<TodoItem> getTodoList(String _writeDate) {
         ArrayList<TodoItem> todoItems = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -80,50 +102,36 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void insertTodo(String title, String content, String writeDate) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "INSERT INTO TODOLIST_TB (title, content, writeDate) VALUES (?, ?, ?)";
-        SQLiteStatement stmt = db.compileStatement(sql);
-        stmt.bindString(1, title);
-        stmt.bindString(2, content);
-        stmt.bindString(3, writeDate);
-        stmt.executeInsert();
-        stmt.close();
+        insertTodoStmt.clearBindings();
+        insertTodoStmt.bindString(1, title);
+        insertTodoStmt.bindString(2, content);
+        insertTodoStmt.bindString(3, writeDate);
+        insertTodoStmt.executeInsert();
     }
 
     public void updateTodo(int _id, String _title, String _content, String _writeDate, String _beforeDate) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "UPDATE TODOLIST_TB SET title = ?, content = ?, writeDate = ? WHERE id = ?";
-
-        SQLiteStatement stmt = db.compileStatement(sql);
-        stmt.bindString(1, _title);
-        stmt.bindString(2, _content);
-        stmt.bindString(3, _writeDate);
-        stmt.bindLong(4, _id);
-
-        stmt.executeUpdateDelete(); // 실행
-        stmt.close();
+        updateTodoStmt.clearBindings();
+        updateTodoStmt.bindString(1, _title);
+        updateTodoStmt.bindString(2, _content);
+        updateTodoStmt.bindString(3, _writeDate);
+        updateTodoStmt.bindLong(4, _id);
+        updateTodoStmt.executeUpdateDelete();
     }
 
     public void deleteTodo(int id) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "DELETE FROM TODOLIST_TB WHERE id = ?";
-        SQLiteStatement stmt = db.compileStatement(sql);
-        stmt.bindLong(1, id);
-        stmt.executeUpdateDelete();
-        stmt.close();
+        deleteTodoStmt.clearBindings();
+        deleteTodoStmt.bindLong(1, id);
+        deleteTodoStmt.executeUpdateDelete();
     }
 
     public void insertDiary(String title, String date, String feel, String pictureUri, String text) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "INSERT INTO DIARY_TB (TITLE, DATE, FEEL, PICTURE_URI, TEXT) VALUES (?, ?, ?, ?, ?)";
-        SQLiteStatement stmt = db.compileStatement(sql);
-        stmt.bindString(1, title);
-        stmt.bindString(2, date);
-        stmt.bindString(3, feel);
-        stmt.bindString(4, pictureUri);
-        stmt.bindString(5, text);
-        stmt.executeInsert();
-        stmt.close();
+        insertDiaryStmt.clearBindings();
+        insertDiaryStmt.bindString(1, title);
+        insertDiaryStmt.bindString(2, date);
+        insertDiaryStmt.bindString(3, feel);
+        insertDiaryStmt.bindString(4, pictureUri);
+        insertDiaryStmt.bindString(5, text);
+        insertDiaryStmt.executeInsert();
     }
 
     public ArrayList<OnePageDiary> getDiaryList() {
@@ -141,24 +149,15 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void updateAlarm(String time) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "UPDATE ALARM_TB SET TIME = ?";
-
-        SQLiteStatement stmt = db.compileStatement(sql);
-        stmt.bindString(1, time);
-
-        stmt.executeUpdateDelete();
-        stmt.close();
+        updateAlarmStmt.clearBindings();
+        updateAlarmStmt.bindString(1, time);
+        updateAlarmStmt.executeUpdateDelete();
     }
 
-
     public void insertAlarm(String time) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "INSERT INTO ALARM_TB (TIME) VALUES (?)";
-        SQLiteStatement stmt = db.compileStatement(sql);
-        stmt.bindString(1, time);
-        stmt.executeInsert();
-        stmt.close();
+        insertAlarmStmt.clearBindings();
+        insertAlarmStmt.bindString(1, time);
+        insertAlarmStmt.executeInsert();
     }
 
     public String getAlarmTime() {
@@ -179,15 +178,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void insertMapMemo(String title, String content, double latitude, double longitude) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "INSERT INTO MAPMEMO_TB (title, content, latitude, longitude) VALUES (?, ?, ?, ?)";
-        SQLiteStatement stmt = db.compileStatement(sql);
-        stmt.bindString(1, title);
-        stmt.bindString(2, content);
-        stmt.bindDouble(3, latitude);
-        stmt.bindDouble(4, longitude);
-        stmt.executeInsert();
-        stmt.close();
+        insertMapMemoStmt.clearBindings();
+        insertMapMemoStmt.bindString(1, title);
+        insertMapMemoStmt.bindString(2, content);
+        insertMapMemoStmt.bindDouble(3, latitude);
+        insertMapMemoStmt.bindDouble(4, longitude);
+        insertMapMemoStmt.executeInsert();
     }
 
     public ArrayList<MapMemoItem> getAllMapMemos() {
@@ -210,11 +206,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void deleteMapMemo(int id) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "DELETE FROM MAPMEMO_TB WHERE id = ?";
-        SQLiteStatement stmt = db.compileStatement(sql);
-        stmt.bindLong(1, id);
-        stmt.executeUpdateDelete();
-        stmt.close();
+        deleteMapMemoStmt.clearBindings();
+        deleteMapMemoStmt.bindLong(1, id);
+        deleteMapMemoStmt.executeUpdateDelete();
     }
 }
