@@ -7,4 +7,17 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="dark_gray">#353535</color>
+    <color name="main">#5F7DE7</color>
+    <color name="calendar_title">#4362B1</color>
+    <color name="calendar_background">#BFD1FB</color>
+    <color name="calendar_bottom">#56575D</color>
+    <color name="edit_text_hint">#91AAFD</color>
+    <color name="light_blue_background">#7A9CCEFF</color>
+    <color name="dark_blue_background">#E76892FF</color>
+    <color name="deep_green">#247C5F</color>
+    <color name="orange">#FFCC80</color>
+    <color name="dark_night_blue">#152442</color>
+    <color name="orda">#5F7DE7</color>
+    <color name="orda_is_your_diary">#7C9BE2</color>
 </resources>

@@ -1,3 +1,175 @@
 <resources>
     <string name="app_name">Team3_Orda_Diary</string>
+
+    <!-- Home Fragment Strings -->
+    <string name="home_fragment_title">오르다</string>
+    <string name="home_fragment_desc">당신만의 만능 다이어리</string>
+    <string name="home_fragment_info">하단 버튼을 눌러 시작하세요</string>
+
+    <!-- Bottom Navigation Menu Strings -->
+    <string name="bottom_nav_menu_schedule">일정 관리</string>
+    <string name="bottom_nav_menu_map">지도 메모</string>
+    <string name="bottom_nav_menu_home">홈</string>
+    <string name="bottom_nav_menu_diary">일기장</string>
+    <string name="bottom_nav_menu_alarm">알람</string>
+
+    <!-- ToDoList Fragment Strings -->
+    <string name="todo_list_title">일정 관리</string>
+    <string name="todo_today_placeholder">선택한 날짜</string>
+    <string name="todo_today_contentDescription_floating_btn">일정을 생성하는 버튼입니다.</string>
+    <string name="todo_edit_title">할 일 수정</string>
+    <string name="todo_edit_desc">할 일을 입력하세요.</string>
+    <string name="todo_dialog_ok">확인</string>
+    <string name="todo_dialog_cancel">취소</string>
+    <string name="todo_options_edit">수정하기</string>
+    <string name="todo_options_delete">삭제하기</string>
+    <string name="todo_dialog_title">원하는 작업을 선택해주세요</string>
+
+    <!-- ToDoListToast Messages -->
+    <string name="toast_todo_added">목록이 추가되었습니다.</string>
+    <string name="toast_todo_updated">목록이 수정되었습니다.</string>
+    <string name="toast_todo_deleted">목록이 삭제되었습니다.</string>
+
+    <!-- ToDoList Item Strings -->
+    <string name="todo_item_title">제목</string>
+    <string name="todo_item_content">내용</string>
+    <string name="todo_item_date">작성날짜</string>
+    <!-- ToDoList Dialog Edit Strings -->
+    <string name="todo_edit_dialog_title">할 일 추가</string>
+    <string name="todo_edit_dialog_label_title">할 일 제목</string>
+    <string name="todo_edit_dialog_label_content">할 일 내용</string>
+    <string name="todo_edit_dialog_btn_ok">확인</string>
+
+
+    <!-- MapMemo Fragment -->
+    <string name="map_title">지도 메모장</string>
+    <string name="map_search_hint">검색할 장소를 입력해주세요</string>
+    <string name="map_search_button">검색</string>
+    <string name="map_add_marker">마커 추가</string>
+    <string name="map_no_results">검색 결과가 없습니다.</string>
+    <string name="map_address_error">주소 변환 오류</string>
+    <string name="map_marker_added">마커가 추가되었습니다.</string>
+
+    <!-- MapMemo Dialog -->
+    <string name="map_dialog_title_hint">마커 제목을 입력하세요</string>
+    <string name="map_dialog_content_hint">메모 내용을 입력하세요</string>
+    <string name="map_dialog_btn_ok">확인</string>
+
+    <!-- Basic -->
+    <string name="btn_ok">확인</string>
+    <string name="btn_cancel">취소</string>
+
+    <!-- Diary List Fragment -->
+    <string name="diary_list_title">내 일기 목록</string>
+    <string name="write_diary">일기 쓰기</string>
+    <string name="diary_no_entries">작성된 일기가 없습니다.</string>
+    <string name="diary_loading_error">일기 목록을 불러오는 중 오류가 발생했습니다.</string>
+
+    <!-- Diary Writing Strings -->
+    <string name="diary_write_gallery">갤러리</string>
+    <string name="diary_write_camera">카메라</string>
+    <string name="diary_write_speech">음성 입력</string>
+    <string name="diary_write_save">저장</string>
+    <string name="diary_write_title">제목</string>
+    <string name="diary_write_title_hint">제목을 입력하세요</string>
+    <string name="diary_write_date_hint">날짜를 입력해주세요 →</string>
+    <string name="diary_write_feeling">기분</string>
+    <string name="diary_write_date">날짜</string>
+    <string name="diary_write_change_date">변경</string>
+    <string name="diary_write_content_hint">여기에 내용을 입력하세요...</string>
+    <string name="diary_write_no_image">이미지를 삽입해주세요.</string>
+    <string name="diary_write_saved">일기가 저장되었습니다.</string>
+    <string name="diary_writing_fragment_iv_contentDescription">일기장에 넣을 사진</string>
+    <string name="error_empty_fields">모든 필드를 입력하세요.</string>
+    <string name="diary_saved">일기가 저장되었습니다.</string>
+
+    <!-- Feeling Options -->
+    <string-array name="diary_feelings">
+        <item>기쁨</item>
+        <item>슬픔</item>
+        <item>화남</item>
+        <item>우울</item>
+        <item>복잡미묘</item>
+        <item>모르겠음</item>
+        <item>최고로 행복</item>
+    </string-array>
+
+    <!-- Diary Selected Fragment -->
+    <string name="diary_title">제목</string>
+    <string name="diary_date">날짜</string>
+    <string name="diary_feel">기분</string>
+    <string name="diary_photo_prompt">아래 중 선택하여\n사진 1장을 넣어주세요!</string>
+    <string name="diary_gallery">갤러리에서 가져오기</string>
+    <string name="diary_camera">카메라 촬영하기</string>
+    <string name="diary_content">일기 내용</string>
+    <string name="diary_detail_title">일기 상세</string>
+    <string name="diary_title_label">제목:</string>
+    <string name="diary_date_label">날짜:</string>
+    <string name="diary_feel_label">기분:</string>
+    <string name="diary_content_label">일기 내용:</string>
+    <string name="default_diary_title">사용자가 입력한 제목</string>
+    <string name="default_diary_date">사용자가 입력한 날짜</string>
+    <string name="default_diary_feel">사용자가 입력한 기분</string>
+    <string name="default_diary_content">사용자가 입력한 일기 내용</string>
+    <string name="diary_image_desc">사용자가 추가한 이미지</string>
+
+    <string name="diary_text">일기 내용</string>
+    <string name="error_empty_diary">일기가 존재하지 않습니다.</string>
+
+    <!-- view_label_text-->
+    <string name="view_label">라벨</string>
+    <string name="view_label_content">사용자 입력 값</string>
+
+    <!-- error toast -->
+    <string name="camera_not_available">카메라를 사용할 수 없습니다.</string>
+    <string name="error_audio">오디오 에러가 발생했습니다.</string>
+    <string name="error_no_permission">권한이 없습니다.</string>
+    <string name="error_network">네트워크 오류가 발생했습니다.</string>
+    <string name="error_no_match">음성을 인식하지 못했습니다.</string>
+    <string name="error_timeout">음성 입력 시간이 초과되었습니다.</string>
+    <string name="error_unknown">알 수 없는 오류가 발생했습니다.</string>
+    <string name="permission_camera_denied">카메라 권한이 거부되었습니다.</string>
+
+    <!-- STT 관련 -->
+    <string name="record_start">음성 녹음 시작</string>
+    <string name="record_stop">음성 녹음 중지</string>
+    <string name="record_done">음성 기록이 완료되었습니다.</string>
+    <string name="error_speech">음성 인식 오류가 발생했습니다.</string>
+
+    <!-- 저장 관련 -->
+    <string name="diarywritingfragment_notice_write_all_feild">모든 필드를 입력해주세요.</string>
+    <string name="diarywritingfragment_done">일기가 저장되었습니다.</string>
+    <string name="stt_start_notice">지금부터 음성으로 기록합니다.</string>
+
+    <!-- Alarm Setting -->
+    <string name="alarm_prompt">알람을 맞춰주세요</string>
+    <string name="alarm_set">알람 맞춰짐</string>
+    <string name="alarm_canceled">알람 취소됨</string>
+    <string name="alarm_set_time">설정된 알람 시간: %1$s</string>
+    <string name="alarm_set_toast">알람이 설정되었습니다.</string>
+    <string name="alarm_cancel_toast">알람이 취소되었습니다.</string>
+    <string name="set_alarm">알람 설정</string>
+    <string name="cancel_alarm">알람 취소</string>
+    <string name="flash_on">플래시 ON</string>
+    <string name="flash_off">플래시 OFF</string>
+    <string name="flash_error">플래시를 사용할 수 없습니다.</string>
+    <string name="alarm_db_error">알람 정보를 가져오는 중 오류 발생</string>
+    <string name="alarm_permission_error">알람 설정에 필요한 권한이 없습니다.</string>
+    <string name="alarm_update_error">알람 업데이트 중 오류가 발생했습니다.</string>
+    <string name="set_alarm_button_desc">알람 설정 버튼</string>
+    <string name="cancel_alarm_button_desc">알람 취소 버튼</string>
+    <string name="alarm_scheduled">알람이 설정되었습니다</string>
+    <!-- Alarm Ringing-->
+    <string name="alarm_dismiss_message">알람을 꺼주세요!!</string>
+    <string name="shake_complete_message">흔들기 완료!</string>
+    <string name="alarm_playing">알람 실행 중</string>
+    <string name="alarm_time_am">AM %1$d시 %2$d분 %3$d초</string>
+    <string name="alarm_time_pm">PM %1$d시 %2$d분 %3$d초</string>
+    <string name="alarm_time_midnight">AM 0시 %1$d분 %2$d초</string>
+    <!-- Alarm Notification-->
+    <string name="alarm_toast_message">알람~!!</string>
+    <string name="alarm_notification_title">알람</string>
+    <string name="alarm_notification_message">일어나세요!!!</string>
+    <string name="ringing_alarm_activity_time">시간</string>
+    <string name="ringing_activity_speed">현재 Speed</string>
 </resources>

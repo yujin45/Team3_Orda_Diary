@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:viewBindingIgnore="true">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="smu.team3_orda_diary.ui.diary.DiaryWritingViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/insertPictureButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orda_ripple_borderless"
+            android:text="@string/diary_write_gallery"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/insertCameraButton"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/insertCameraButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orda_ripple_borderless"
+            android:text="@string/diary_write_camera"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/recordButton"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/insertPictureButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/recordButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orda_ripple_borderless"
+            android:text="@string/diary_write_speech"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toStartOf="@id/saveButton"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/insertCameraButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orda_ripple_borderless"
+            android:text="@string/diary_write_save"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/recordButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/diary_write_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/saveButton" />
+
+        <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/diary_write_title_hint"
+            android:importantForAutofill="no"
+            android:inputType="textNoSuggestions"
+            android:minHeight="48dp"
+            android:text="@={viewModel.title}"
+            android:textColorHint="@color/edit_text_hint"
+            app:layout_constraintEnd_toStartOf="@id/feelButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView"
+            app:layout_constraintWidth_percent="0.7" />
+
+        <Button
+            android:id="@+id/feelButton"
+            android:layout_width="0dp"
+            android:contentDescription="@string/diary_feel_label"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orda_ripple_borderless"
+            android:text="@{viewModel.feeling}"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/titleEditText"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <TextView
+            android:id="@+id/dateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/diary_write_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleEditText" />
+
+        <EditText
+            android:id="@+id/dateEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:focusable="false"
+            android:hint="@string/diary_write_date_hint"
+            android:importantForAutofill="no"
+            android:inputType="none"
+            android:text="@={viewModel.date}"
+            android:minHeight="48dp"
+            android:textColorHint="@color/edit_text_hint"
+            app:layout_constraintEnd_toStartOf="@id/changeDateButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dateTextView"
+            app:layout_constraintWidth_percent="0.7"
+            tools:ignore="TextFields" />
+
+        <Button
+            android:id="@+id/changeDateButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/orda_ripple_borderless"
+            android:text="@string/diary_write_change_date"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/dateEditText"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <ImageView
+            android:id="@+id/diaryImageView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/diary_writing_fragment_iv_contentDescription"
+            android:scaleType="fitCenter"
+            android:src="@{viewModel.imagePath}"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/changeDateButton" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:gravity="top"
+            android:hint="@string/diary_write_content_hint"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:text="@={viewModel.content}"
+            android:minHeight="48dp"
+            android:textColorHint="@color/edit_text_hint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/diaryImageView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
