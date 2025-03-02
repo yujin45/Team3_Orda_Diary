@@ -149,4 +149,27 @@ public class DBHelperTest {
         mapMemos = dbHelper.getAllMapMemos();
         assertTrue(mapMemos.isEmpty());
     }
+
+    @Test
+    public void testSQLInjectionUpdateTodo() {
+        dbHelper.insertTodo("Todo A", "Content A", "2025-03-01");
+        dbHelper.insertTodo("Todo B", "Content B", "2025-03-01");
+        dbHelper.insertTodo("Todo C", "Content C", "2025-03-01");
+
+        ArrayList<TodoItem> todoList = dbHelper.getTodoList("2025-03-01");
+        assertEquals(3, todoList.size());
+
+        int targetTodoId = todoList.get(0).getId();
+
+        // SQL Injection 시도 - 모든 데이터를 업데이트하도록 WHERE 조건 변경
+        String injectionTitle = "Injected Title', writeDate='2025-03-02' WHERE id=id OR 1=1 --";
+
+        dbHelper.updateTodo(targetTodoId, injectionTitle, "Injected Content", "2025-03-02", "2025-03-01");
+
+        ArrayList<TodoItem> manipulatedList = dbHelper.getTodoList("2025-03-02");
+
+        // Injection이 성공했다면 모든 To-Do의 날짜가 변경됨 (원래 1개만 변경되어야 함)
+        assertTrue("SQL Injection should have updated multiple rows unexpectedly!", manipulatedList.size() > 1);
+    }
+
 }
