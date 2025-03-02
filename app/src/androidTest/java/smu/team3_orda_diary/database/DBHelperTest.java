@@ -1,7 +1,9 @@
 package smu.team3_orda_diary.database;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
@@ -169,7 +171,56 @@ public class DBHelperTest {
         ArrayList<TodoItem> manipulatedList = dbHelper.getTodoList("2025-03-02");
 
         // Injection이 성공했다면 모든 To-Do의 날짜가 변경됨 (원래 1개만 변경되어야 함)
-        assertTrue("SQL Injection should have updated multiple rows unexpectedly!", manipulatedList.size() > 1);
+        //assertTrue("SQL Injection should have updated multiple rows unexpectedly!", manipulatedList.size() > 1);
+        // Injection 방어 코드 작성 후 False가 되어야 테스트 코드 통과
+        assertFalse("SQL Injection should have updated multiple rows unexpectedly!", manipulatedList.size() > 1);
     }
 
+    @Test
+    public void testInsertTodo() {
+        dbHelper.insertTodo("Test Todo", "Test Content", "2025-03-01");
+        ArrayList<TodoItem> todoList = dbHelper.getTodoList("2025-03-01");
+        assertEquals(1, todoList.size());
+    }
+
+    @Test
+    public void testUpdateTodo() {
+        dbHelper.insertTodo("Test Todo", "Test Content", "2025-03-01");
+        ArrayList<TodoItem> todoList = dbHelper.getTodoList("2025-03-01");
+        int todoId = todoList.get(0).getId();
+
+        dbHelper.updateTodo(todoId, "Updated Todo", "Updated Content", "2025-03-02", "2025-03-01");
+        ArrayList<TodoItem> updatedList = dbHelper.getTodoList("2025-03-02");
+
+        assertEquals(1, updatedList.size());
+        assertEquals("Updated Todo", updatedList.get(0).getTitle());
+    }
+
+    @Test
+    public void testDeleteTodo() {
+        dbHelper.insertTodo("Test Todo", "Test Content", "2025-03-01");
+        ArrayList<TodoItem> todoList = dbHelper.getTodoList("2025-03-01");
+        int todoId = todoList.get(0).getId();
+
+        dbHelper.deleteTodo(todoId);
+        todoList = dbHelper.getTodoList("2025-03-01");
+
+        assertTrue(todoList.isEmpty());
+    }
+
+    @Test
+    public void testInsertDiary() {
+        dbHelper.insertDiary("Diary Title", "2025-03-01", "Happy", "test_uri", "Diary Content");
+        ArrayList<OnePageDiary> diaryList = dbHelper.getDiaryList();
+        assertEquals(1, diaryList.size());
+    }
+
+
+    @Test
+    public void testDeleteAlarm() {
+        dbHelper.insertAlarm("08:00 AM");
+        dbHelper.deleteAlarm("08:00 AM");
+        String retrievedTime = dbHelper.getAlarmTime();
+        assertNull(retrievedTime);
+    }
 }
