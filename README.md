@@ -2,9 +2,9 @@
 
 ## :blue_heart: 오르다 미리보기 영상
 
-<video controls style="max-width: 100%; height: auto;" autoplay muted playsinline>
- <source src="./OrdaDocs/OrdaDiaryRelease2.mp4" type="video/mp4">
-</video>
+
+https://github.com/user-attachments/assets/7dd2cf7c-c5f8-42af-a848-dd19e7f14e12
+
 
 ### [2022-2 모바일 프로그래밍 최종 기말 프로젝트 3조 - 정유진, 박근영]
 
