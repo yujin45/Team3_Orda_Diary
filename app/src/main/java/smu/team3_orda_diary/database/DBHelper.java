@@ -1,11 +1,10 @@
 package smu.team3_orda_diary.database;
 
-// DB 사용을 위한 것들
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 
@@ -33,13 +32,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    //데이터베이스가 생성되었을 때의 상태값을 이야기하는 함수
     public void onCreate(SQLiteDatabase db) {
-        //데이터 베이스가 생성이 될 때 호출
-        //데이터베이스 -> 테이블 -> 칼럼 -> 값
         db.execSQL("CREATE TABLE IF NOT EXISTS TODOLIST_TB (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, content TEXT NOT NULL,writeDate TEXT NOT NULL ) ");
-
-        // 일기 한장에 포함되는 내용들 : 구분 번호, 제목, 날짜, 기분, 사진(혹은 그림), 내용
         db.execSQL("CREATE TABLE IF NOT EXISTS DIARY_TB" +
                 "(DIARY_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "TITLE TEXT NOT NULL, " +
@@ -47,11 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "FEEL TEXT NOT NULL," +
                 "PICTURE_URI TEXT NOT NULL," +
                 "TEXT TEXT NOT NULL);");
-
-        // 알람 관련
         db.execSQL("CREATE TABLE IF NOT EXISTS ALARM_TB (ALARM_ID INTEGER PRIMARY KEY AUTOINCREMENT,TIME TEXT NOT NULL); ");
-
-        // Map Memo
         db.execSQL("CREATE TABLE IF NOT EXISTS MAPMEMO_TB (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "title TEXT NOT NULL, " +
@@ -72,90 +62,73 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    //SELECT 문 (할일 목록을 조회한다.)
     public ArrayList<TodoItem> getTodoList(String _writeDate) {
         ArrayList<TodoItem> todoItems = new ArrayList<>();
-        String change = _writeDate;
-
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM TODOLIST_TB WHERE writeDate='" + change + "' ORDER BY writeDate DESC", null);
-        if (cursor.getCount() != 0) {
-            // 조회는 데이터가 있을 때 내부 수행
-            while (cursor.moveToNext()) {
-                int cursor_id = cursor.getColumnIndex("id");
-                int cursor_title = cursor.getColumnIndex("title");
-                int cursor_content = cursor.getColumnIndex("content");
-                int cursor_writeDate = cursor.getColumnIndex("writeDate");
+        Cursor cursor = db.rawQuery("SELECT * FROM TODOLIST_TB WHERE writeDate = ?", new String[]{_writeDate});
 
-                int id = cursor.getInt(cursor_id);
-                String title = cursor.getString(cursor_title);
-                String content = cursor.getString(cursor_content);
-                String writeDate = cursor.getString(cursor_writeDate);
-
-                TodoItem todoItem = new TodoItem();
-                todoItem.setId(id);
-                todoItem.setTitle(title);
-                todoItem.setContent(content);
-                todoItem.setWriteDate(writeDate);
-
-                todoItems.add(todoItem);
-            }
+        while (cursor.moveToNext()) {
+            TodoItem todoItem = new TodoItem();
+            todoItem.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+            todoItem.setTitle(cursor.getString(cursor.getColumnIndexOrThrow("title")));
+            todoItem.setContent(cursor.getString(cursor.getColumnIndexOrThrow("content")));
+            todoItem.setWriteDate(cursor.getString(cursor.getColumnIndexOrThrow("writeDate")));
+            todoItems.add(todoItem);
         }
         cursor.close();
         return todoItems;
-
     }
 
-    //INSERT 문 (할일 목록을 DB에 넣는다)
-    public void insertTodo(String _title, String _content, String _writeDate) {
+    public void insertTodo(String title, String content, String writeDate) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO TODOLIST_TB (title, content, writeDate) VALUES ('" + _title + "','" + _content + "','" + _writeDate + "');");
+        String sql = "INSERT INTO TODOLIST_TB (title, content, writeDate) VALUES (?, ?, ?)";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, title);
+        stmt.bindString(2, content);
+        stmt.bindString(3, writeDate);
+        stmt.executeInsert();
+        stmt.close();
     }
 
-    //UPDATE 문 (할일 목록을 수정한다.)
     public void updateTodo(int _id, String _title, String _content, String _writeDate, String _beforeDate) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE TODOLIST_TB SET title='" + _title + "', content='" + _content + "', writeDate= '" + _writeDate + "' WHERE id='" + _id + "' ");
+        String sql = "UPDATE TODOLIST_TB SET title = ?, content = ?, writeDate = ? WHERE id = ?";
+
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, _title);
+        stmt.bindString(2, _content);
+        stmt.bindString(3, _writeDate);
+        stmt.bindLong(4, _id);
+
+        stmt.executeUpdateDelete(); // 실행
+        stmt.close();
     }
 
-    //DELETE 문 (할일 목록을 제거한다.)
     public void deleteTodo(int id) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM TODOLIST_TB WHERE id = " + id);
+        String sql = "DELETE FROM TODOLIST_TB WHERE id = ?";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindLong(1, id);
+        stmt.executeUpdateDelete();
+        stmt.close();
     }
 
-    //////// 다이어리 관련
-    public void insertDiary(String title, String date, String feel, String picture_uri, String text) {
+    public void insertDiary(String title, String date, String feel, String pictureUri, String text) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO DIARY_TB (TITLE, DATE, FEEL,PICTURE_URI,TEXT) VALUES ('" + title + "','" + date + "','" + feel + "','" + picture_uri + "','" + text + "');");
-
-        //db.execSQL("INSERT INTO TODOLIST_TB VALUES( '" + title + "', '" + date + "', '"
-        //       + feel + "', '" + picture_uri + "','" + text+"');");
-        //db.close();
-    }
-
-    public void updateDiary(int diary_id, String title, String date, String feel, String picture_uri, String text) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE DIARY_TB SET TITLE = " + title
-                + ", DATE = '" + date + "'"
-                + ", FEEL = '" + feel + "'"
-                + ", PICTURE_URI = '" + picture_uri + "'"
-                + ", TEXT =  '" + text + "'"
-                + " WHERE DIARY_ID = '" + diary_id + "'");
-        // db.close();
-    }
-
-    public void deleteDiary(int diary_id) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE DIARY_TB WHERE DIARY_ID = '" + diary_id + "'");
-        //db.close();
+        String sql = "INSERT INTO DIARY_TB (TITLE, DATE, FEEL, PICTURE_URI, TEXT) VALUES (?, ?, ?, ?, ?)";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, title);
+        stmt.bindString(2, date);
+        stmt.bindString(3, feel);
+        stmt.bindString(4, pictureUri);
+        stmt.bindString(5, text);
+        stmt.executeInsert();
+        stmt.close();
     }
 
     public ArrayList<OnePageDiary> getDiaryList() {
-        // 읽기가 가능하게 DB 열기
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<OnePageDiary> onePageDiaries = new ArrayList<>();
-        // DB에 있는 데이터를 쉽게 처리하기 위해 Cursor를 사용하여 테이블에 있는 모든 데이터 출력
         Cursor cursor = db.rawQuery("SELECT * FROM DIARY_TB", null);
         while (cursor.moveToNext()) {
             OnePageDiary onePageDiary = new OnePageDiary(cursor.getInt(0),
@@ -167,38 +140,54 @@ public class DBHelper extends SQLiteOpenHelper {
         return onePageDiaries;
     }
 
-    // 알람을 다시 설정
     public void updateAlarm(String time) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("UPDATE ALARM_TB SET TIME='" + time + "' ");
+        String sql = "UPDATE ALARM_TB SET TIME = ?";
+
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, time);
+
+        stmt.executeUpdateDelete();
+        stmt.close();
     }
 
-    //INSERT 문 (할일 목록을 DB에 넣는다)
+
     public void insertAlarm(String time) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO ALARM_TB (TIME) VALUES ('" + time + "');");
+        String sql = "INSERT INTO ALARM_TB (TIME) VALUES (?)";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, time);
+        stmt.executeInsert();
+        stmt.close();
     }
 
     public String getAlarmTime() {
         SQLiteDatabase db = getReadableDatabase();
-        String time = null;
-        Cursor cursor = db.rawQuery("SELECT * FROM ALARM_TB", null);
-        while (cursor.moveToNext()) {
-            time = cursor.getString(1);
-        }
+        Cursor cursor = db.rawQuery("SELECT TIME FROM ALARM_TB LIMIT 1", null);
+        String time = cursor.moveToFirst() ? cursor.getString(0) : null;
         cursor.close();
         return time;
     }
 
-    //DELETE 문 (할일 목록을 제거한다.)
     public void deleteAlarm(String time) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM ALARM_TB WHERE TIME = '" + time + "'");
+        String sql = "DELETE FROM ALARM_TB WHERE TIME = ?";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, time);
+        stmt.executeUpdateDelete();
+        stmt.close();
     }
 
     public void insertMapMemo(String title, String content, double latitude, double longitude) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("INSERT INTO MAPMEMO_TB (title, content, latitude, longitude) VALUES ('" + title + "', '" + content + "', " + latitude + ", " + longitude + ")");
+        String sql = "INSERT INTO MAPMEMO_TB (title, content, latitude, longitude) VALUES (?, ?, ?, ?)";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindString(1, title);
+        stmt.bindString(2, content);
+        stmt.bindDouble(3, latitude);
+        stmt.bindDouble(4, longitude);
+        stmt.executeInsert();
+        stmt.close();
     }
 
     public ArrayList<MapMemoItem> getAllMapMemos() {
@@ -222,6 +211,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void deleteMapMemo(int id) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE FROM MAPMEMO_TB WHERE id = " + id);
+        String sql = "DELETE FROM MAPMEMO_TB WHERE id = ?";
+        SQLiteStatement stmt = db.compileStatement(sql);
+        stmt.bindLong(1, id);
+        stmt.executeUpdateDelete();
+        stmt.close();
     }
 }

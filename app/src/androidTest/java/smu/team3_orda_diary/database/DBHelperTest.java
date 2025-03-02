@@ -34,7 +34,7 @@ public class DBHelperTest {
         dbHelper = DBHelper.getInstance(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.execSQL("DELETE FROM MAPMEMO_TB");
-        db.close();
+        //db.close(); Prepared Statement 컴파일 된 것 사용하기 위한 주석 처리. 테스트 전체 돌릴 때.
     }
 
     @After
@@ -44,14 +44,14 @@ public class DBHelperTest {
         db.execSQL("DELETE FROM DIARY_TB");
         db.execSQL("DELETE FROM ALARM_TB");
         db.execSQL("DELETE FROM MAPMEMO_TB");
-        db.close();
+        //db.close(); Prepared Statement 컴파일 된 것 사용하기 위한 주석 처리. 테스트 전체 돌릴 때.
     }
 
     @Test
     public void testDatabaseCreation() {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         assertNotNull(db);
-        db.close();
+        //db.close(); Prepared Statement 컴파일 된 것 사용하기 위한 주석 처리. 테스트 전체 돌릴 때.
     }
 
     @Test
