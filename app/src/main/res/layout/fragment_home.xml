@@ -8,11 +8,11 @@
     tools:context=".ui.home.HomeFragment">
 
     <ImageView
-        android:id="@+id/imageView7"
+        android:id="@+id/imageViewMain"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/home_fragment_title"
-        app:layout_constraintBottom_toTopOf="@id/textView3"
+        app:layout_constraintBottom_toTopOf="@id/textViewTitle"
         app:layout_constraintDimensionRatio="3:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
         app:srcCompat="@drawable/orda_icon" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="15dp"
@@ -30,13 +30,13 @@
         android:text="@string/home_fragment_title"
         android:textColor="@color/orda"
         android:textSize="48sp"
-        app:layout_constraintBottom_toTopOf="@id/textView5"
+        app:layout_constraintBottom_toTopOf="@id/textViewSubTitle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView7" />
+        app:layout_constraintTop_toBottomOf="@id/imageViewMain" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textViewSubTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nanumleo_bold"
@@ -47,5 +47,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView3" />
+        app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
+
+    <TextView
+        android:id="@+id/textViewInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nanumleo_bold"
+        android:gravity="center"
+        android:text="@string/home_fragment_info"
+        android:textColor="@color/orda_is_your_diary"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewSubTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

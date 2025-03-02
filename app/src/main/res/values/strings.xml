@@ -4,6 +4,7 @@
     <!-- Home Fragment Strings -->
     <string name="home_fragment_title">오르다</string>
     <string name="home_fragment_desc">당신만의 만능 다이어리</string>
+    <string name="home_fragment_info">하단 버튼을 눌러 시작하세요</string>
 
     <!-- Bottom Navigation Menu Strings -->
     <string name="bottom_nav_menu_schedule">일정 관리</string>
